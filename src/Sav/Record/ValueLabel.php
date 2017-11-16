@@ -65,13 +65,13 @@ class ValueLabel
         // after a value label record.
         $recType = $buffer->readInt();
         if ( $recType != 4 ) {
-            throw new Exception(
-                sprintf( 'Error reading Variable Index record: bad record type [%s]. Expecting Record Type 4.',
-                    $recType )
-            );
+            $message = 'Error reading Variable Index record: bad record type '
+                . '[%s]. Expecting Record Type 4.';
+            throw new Exception( sprintf( $message, $recType ) );
         }
 
-        // Number of variables that the associated value labels from the value label record are to be applied.
+        // Number of variables that the associated value labels from the value
+        // label record are to be applied.
         $varCount = $buffer->readInt();
         for ( $i = 0; $i < $varCount; $i++ ) {
             $this->vars[] = $buffer->readInt() - 1;
