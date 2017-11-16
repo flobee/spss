@@ -51,10 +51,13 @@ class Variable extends Record
     public $write = [0, 0, 0, 0];
 
     /**
-     * @var string Variable name.
+     * Variable name.
+     *
      * The variable name must begin with a capital letter or the at-sign (‘@’).
      * Subsequent characters may also be digits, octothorpes (‘#’), dollar signs (‘$’), underscores (‘_’), or full stops (‘.’).
      * The variable name is padded on the right with spaces.
+     *
+     * @var string
      */
     public $name;
 
