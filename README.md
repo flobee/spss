@@ -12,13 +12,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist tiamo/spss "*"
+php composer require --prefer-dist flobee/spss "*"
 ```
 
 or add
 
 ```
-"tiamo/spss": "*"
+"flobee/spss": "*"
 ```
 
 to the require section of your `composer.json` file.
