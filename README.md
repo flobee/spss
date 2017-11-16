@@ -12,15 +12,8 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer require --prefer-dist flobee/spss "*"
+composer require flobee/spss
 ```
-
-or add
-
-```
-"flobee/spss": "*"
-```
-
 to the require section of your `composer.json` file.
 
 
