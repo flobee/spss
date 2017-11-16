@@ -3,7 +3,7 @@ SPSS
 A PHP library for reading and writing SPSS data files.
 
 ## Requirements
-* PHP 5.3.0 and up.
+* PHP 5.3.*, 7.* and up.
 
 ## Installation
 
