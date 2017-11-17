@@ -1,2 +1,6 @@
+pspp.jnl
+
 /vendor
 /tmp
+composer.lock
+/nbproject/
