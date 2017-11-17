@@ -4,6 +4,7 @@ namespace SPSS\Sav;
 
 use SPSS\Buffer;
 
+
 class Writer
 {
     /**
@@ -41,26 +42,28 @@ class Writer
      */
     protected $buffer;
 
+
     /**
      * Writer constructor.
      * @param array $data
      */
-    public function __construct($data = [])
+    public function __construct( $data = [] )
     {
         $this->buffer = Buffer::factory();
         $this->buffer->context = $this;
 
-        if (!empty($data)) {
-            $this->init($data);
+        if ( !empty( $data ) ) {
+            $this->init( $data );
         }
     }
+
 
     /**
      * @param array $data
      */
-    public function init($data)
+    public function init( $data )
     {
-        $this->header = new Record\Header($data['header']);
+        $this->header = new Record\Header( $data['header'] );
         $this->header->nominalCaseSize = 0;
         $this->header->casesCount = 0;
 
@@ -77,48 +80,50 @@ class Writer
         $this->data = new Record\Data();
 
         /** @var Variable $var */
-        foreach ($data['variables'] as $idx => $var) {
+        foreach ( $data['variables'] as $idx => $var ) {
 
-            if (is_array($var)) {
-                $var = new Variable($var);
+            if ( is_array( $var ) ) {
+                $var = new Variable( $var );
             }
 
-            $shortName = strtoupper(substr($var->name, 0, 8));
+            $shortName = strtoupper( substr( $var->name, 0, 8 ) );
 
             $variable = new Record\Variable();
             $variable->name = $shortName;
             $variable->width = $var->width;
             $variable->label = $var->label;
-            $variable->print = [$var->decimals, $var->width ? min($var->width, 255) : 8, $var->format, 0];
-            $variable->write = [$var->decimals, $var->width ? min($var->width, 255) : 8, $var->format, 0];
+            $variable->print = [$var->decimals, $var->width ? min( $var->width, 255 ) : 8, $var->format, 0];
+            $variable->write = [$var->decimals, $var->width ? min( $var->width, 255 ) : 8, $var->format, 0];
 
-            if ($var->missing) {
-                if ($var->width <= 8) {
-                    if (count($var->missing) >= 3) {
+            if ( $var->missing ) {
+                if ( $var->width <= 8 ) {
+                    if ( count( $var->missing ) >= 3 ) {
                         $variable->missingValuesFormat = 3;
-                    } elseif (count($var->missing) == 2) {
+                    } elseif ( count( $var->missing ) == 2 ) {
                         $variable->missingValuesFormat = -2;
                     } else {
                         $variable->missingValuesFormat = 1;
                     }
                     $variable->missingValues = $var->missing;
                 } else {
-                    $this->info[Record\Info\LongStringMissingValues::SUBTYPE]->data[$shortName] = $var->missing;
+                    $this->info[Record\Info\LongStringMissingValues::SUBTYPE]->data[$shortName]
+                        = $var->missing;
                 }
             }
 
-            if ($var->values) {
-                if ($var->width > 8) {
-                    $this->info[Record\Info\LongStringValueLabels::SUBTYPE]->data[$shortName] = [
-                        'width'  => $var->width,
+            if ( $var->values ) {
+                if ( $var->width > 8 ) {
+                    $this->info[Record\Info\LongStringValueLabels::SUBTYPE]->data[$shortName]
+                        = [
+                        'width' => $var->width,
                         'values' => $var->values
                     ];
                 } else {
                     $valueLabel = new Record\ValueLabel();
-                    foreach ($var->values as $key => $value) {
+                    foreach ( $var->values as $key => $value ) {
                         $valueLabel->vars = [$idx + 1];
                         $valueLabel->data[] = [
-                            'value' => $var->width > 0 ? Buffer::stringToDouble($key) : $key,
+                            'value' => $var->width > 0 ? Buffer::stringToDouble( $key ) : $key,
                             'label' => $value
                         ];
                     }
@@ -126,13 +131,13 @@ class Writer
                 }
             }
 
-            if (Record\Variable::isVeryLong($var->width)) {
+            if ( Record\Variable::isVeryLong( $var->width ) ) {
                 $this->info[Record\Info\VeryLongString::SUBTYPE]->data[$shortName] = $var->width;
             }
             $this->info[Record\Info\LongVariableNames::SUBTYPE]->data[$shortName] = $var->name;
 
-            $segmentCount = Record\Variable::widthToSegments($var->width);
-            for ($i = 0; $i < $segmentCount; $i++) {
+            $segmentCount = Record\Variable::widthToSegments( $var->width );
+            for ( $i = 0; $i < $segmentCount; $i++ ) {
                 $this->info[Record\Info\VariableDisplayParam::SUBTYPE]->data[] = [
                     $var->measure,
                     $var->columns,
@@ -140,43 +145,45 @@ class Writer
                 ];
             }
 
-            $dataCount = count($var->data);
-            if ($dataCount > $this->header->casesCount) {
+            $dataCount = count( $var->data );
+            if ( $dataCount > $this->header->casesCount ) {
                 $this->header->casesCount = $dataCount;
             }
 
-            foreach ($var->data as $case => $value) {
+            foreach ( $var->data as $case => $value ) {
                 $this->data->matrix[$case][$idx] = $value;
             }
 
-            $this->header->nominalCaseSize += Record\Variable::widthToOcts($var->width);
+            $this->header->nominalCaseSize += Record\Variable::widthToOcts( $var->width );
             $this->variables[] = $variable;
         }
 
-        $this->header->write($this->buffer);
+        $this->header->write( $this->buffer );
 
-        foreach ($this->variables as $variable) {
-            $variable->write($this->buffer);
+        foreach ( $this->variables as $variable ) {
+            $variable->write( $this->buffer );
         }
-        foreach ($this->valueLabels as $valueLabel) {
-            $valueLabel->write($this->buffer);
+        foreach ( $this->valueLabels as $valueLabel ) {
+            $valueLabel->write( $this->buffer );
         }
-        if (!empty($data['documents'])) {
+        if ( !empty( $data['documents'] ) ) {
             $this->document->lines = $data['documents'];
-            $this->document->write($this->buffer);
+            $this->document->write( $this->buffer );
         }
-        foreach ($this->info as $info) {
-            $info->write($this->buffer);
+        foreach ( $this->info as $info ) {
+            $info->write( $this->buffer );
         }
-        $this->data->write($this->buffer);
+        $this->data->write( $this->buffer );
     }
+
 
     /**
      * @param $file
      * @return false|int
      */
-    public function save($file)
+    public function save( $file )
     {
-        return $this->buffer->saveToFile($file);
+        return $this->buffer->saveToFile( $file );
     }
+
 }
