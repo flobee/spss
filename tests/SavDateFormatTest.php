@@ -6,12 +6,15 @@ use SPSS\Sav\Reader;
 use SPSS\Sav\Variable;
 use SPSS\Sav\Writer;
 
-class SavDateFormatTest extends \PHPUnit_Framework_TestCase
+
+class SavDateFormatTest
+    extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var string
      */
-    public $file = 'tmp/dates.sav';
+    public $file = 'tests/tmp/dates.sav';
+
 
     /**
      * @return array
@@ -19,22 +22,24 @@ class SavDateFormatTest extends \PHPUnit_Framework_TestCase
     public function testWrite()
     {
         $data = $this->dataProvider();
-        $writer = new Writer($data);
-        $writer->save($this->file);
-        $this->assertFileExists($this->file);
+        $writer = new Writer( $data );
+        $writer->save( $this->file );
+        $this->assertFileExists( $this->file );
         return $data;
     }
+
 
     /**
      * @depends testWrite
      * @param array $data
      */
-    public function testRead(array $data)
+    public function testRead( array $data )
     {
-        $reader = Reader::fromFile($this->file);
-        $this->assertEquals($reader->header->prodName, $data['header']['prodName']);
-        $this->assertEquals($reader->header->nominalCaseSize, 47);
+        $reader = Reader::fromFile( $this->file );
+        $this->assertEquals( $reader->header->prodName, $data['header']['prodName'] );
+        $this->assertEquals( $reader->header->nominalCaseSize, 47 );
     }
+
 
     /**
      * @return array
@@ -349,4 +354,5 @@ class SavDateFormatTest extends \PHPUnit_Framework_TestCase
             ]
         ];
     }
+
 }
