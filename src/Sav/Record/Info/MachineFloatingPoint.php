@@ -5,7 +5,9 @@ namespace SPSS\Sav\Record\Info;
 use SPSS\Buffer;
 use SPSS\Sav\Record\Info;
 
-class MachineFloatingPoint extends Info
+
+class MachineFloatingPoint
+    extends Info
 {
     const SUBTYPE = 4;
 
@@ -34,25 +36,28 @@ class MachineFloatingPoint extends Info
      */
     protected $dataCount = 3;
 
+
     /**
      * @param Buffer $buffer
      */
-    public function read(Buffer $buffer)
+    public function read( Buffer $buffer )
     {
-        parent::read($buffer);
+        parent::read( $buffer );
         $this->sysmis = $buffer->readDouble();
         $this->highest = $buffer->readDouble();
         $this->lowest = $buffer->readDouble();
     }
 
+
     /**
      * @param Buffer $buffer
      */
-    public function write(Buffer $buffer)
+    public function write( Buffer $buffer )
     {
-        parent::write($buffer);
-        $buffer->writeDouble($this->sysmis);
-        $buffer->writeDouble($this->highest ? $this->highest : -$this->sysmis);
-        $buffer->writeDouble($this->lowest ? $this->lowest : -$this->sysmis);
+        parent::write( $buffer );
+        $buffer->writeDouble( $this->sysmis );
+        $buffer->writeDouble( $this->highest ? $this->highest : -$this->sysmis );
+        $buffer->writeDouble( $this->lowest ? $this->lowest : -$this->sysmis );
     }
+
 }

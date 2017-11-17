@@ -5,7 +5,9 @@ namespace SPSS\Sav\Record\Info;
 use SPSS\Buffer;
 use SPSS\Sav\Record\Info;
 
-class ExtendedNumberOfCases extends Info
+
+class ExtendedNumberOfCases
+    extends Info
 {
     const SUBTYPE = 16;
 
@@ -24,23 +26,26 @@ class ExtendedNumberOfCases extends Info
      */
     protected $dataCount = 2;
 
-    /**
-     * @param Buffer $buffer
-     */
-    public function read(Buffer $buffer)
-    {
-        parent::read($buffer);
-        $buffer->readDouble();
-        $this->ncases = $buffer->readDouble();
-    }
 
     /**
      * @param Buffer $buffer
      */
-    public function write(Buffer $buffer)
+    public function read( Buffer $buffer )
     {
-        parent::write($buffer);
-        $buffer->writeDouble(1);
-        $buffer->writeDouble($this->ncases);
+        parent::read( $buffer );
+        $buffer->readDouble();
+        $this->ncases = $buffer->readDouble();
     }
+
+
+    /**
+     * @param Buffer $buffer
+     */
+    public function write( Buffer $buffer )
+    {
+        parent::write( $buffer );
+        $buffer->writeDouble( 1 );
+        $buffer->writeDouble( $this->ncases );
+    }
+
 }

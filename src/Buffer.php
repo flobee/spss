@@ -60,21 +60,30 @@ class Buffer
         switch ( $type )
         {
             case 'string':
-                $stream = isset( $options['memory'] ) ? fopen( 'php://memory', 'r+' ) : fopen( 'php://temp',
-                        'r+' );
+                if ( isset( $options['memory'] ) ) {
+                    $stream = fopen( 'php://memory', 'r+' );
+                } else {
+                    $stream = fopen( 'php://temp', 'r+' );
+                }
+
                 if ( $resource !== '' ) {
                     fwrite( $stream, $resource );
                     fseek( $stream, 0 );
                 }
+
                 return new self( $stream, $options );
+
             case 'resource':
                 return new self( $resource, $options );
+
             case 'object':
                 if ( method_exists( $resource, '__toString' ) ) {
                     return self::factory( (string) $resource, $options );
                 }
         }
-        throw new \InvalidArgumentException( sprintf( 'Invalid resource type: %s', $type ) );
+
+        $mesg = sprintf( 'Invalid resource type: %s', $type );
+        throw new \InvalidArgumentException( $mesg );
     }
 
 
@@ -92,8 +101,10 @@ class Buffer
             if ( $skip ) {
                 $this->skip( $length );
             }
+
             return new self( $stream );
         }
+
         throw new Exception( 'Buffer allocation failed' );
     }
 
@@ -111,20 +122,21 @@ class Buffer
 
 
     /**
-     * @param resource $resource
+     * @param resource $res
      * @param null|int $maxlength
      *
      * @return false|int
      */
-    public function writeStream( $resource, $maxlength = null )
+    public function writeStream( $res, $maxlength = null )
     {
-        if ( !is_resource( $resource ) ) {
+        if ( !is_resource( $res ) ) {
             throw new \InvalidArgumentException( 'Invalid resource type' );
         }
+
         if ( $maxlength ) {
-            $length = stream_copy_to_stream( $resource, $this->_stream, $maxlength );
+            $length = stream_copy_to_stream( $res, $this->_stream, $maxlength );
         } else {
-            $length = stream_copy_to_stream( $resource, $this->_stream );
+            $length = stream_copy_to_stream( $res, $this->_stream );
         }
 
         $this->_position += $length;
@@ -143,15 +155,15 @@ class Buffer
 
 
     /**
-     * @param int $length
+     * @param int $len Length/ number of bytes to read
      *
      * @return false|string
      */
-    public function read( $length )
+    public function read( $len )
     {
-        $bytes = stream_get_contents( $this->_stream, $length, $this->_position );
+        $bytes = stream_get_contents( $this->_stream, $len, $this->_position );
         if ( $bytes !== false ) {
-            $this->_position += $length;
+            $this->_position += $len;
         }
 
         return $bytes;
@@ -166,8 +178,12 @@ class Buffer
      */
     public function write( $data, $length = null )
     {
-        $length = $length ? fwrite( $this->_stream, $data, $length ) : fwrite( $this->_stream,
-                $data );
+        if ($length !== null ) {
+            $length = fwrite( $this->_stream, $data, $length );
+        } else {
+            $length = fwrite( $this->_stream, $data );
+        }
+
         $this->_position += $length;
 
         return $length;

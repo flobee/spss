@@ -14,7 +14,7 @@ class Document
     /**
      * @var array
      */
-    public $lines = [];
+    public $lines = array();
 
 
     /**

@@ -45,6 +45,7 @@ class Writer
 
     /**
      * Writer constructor.
+     *
      * @param array $data
      */
     public function __construct( $data = [] )
@@ -92,11 +93,21 @@ class Writer
             $variable->name = $shortName;
             $variable->width = $var->width;
             $variable->label = $var->label;
-            $variable->print = [$var->decimals, $var->width ? min( $var->width, 255 ) : 8, $var->format, 0];
-            $variable->write = [$var->decimals, $var->width ? min( $var->width, 255 ) : 8, $var->format, 0];
+            $variable->print = array(
+                $var->decimals,
+                $var->width ? min( $var->width, 255 ) : 8, $var->format,
+                0
+            );
+            $variable->write = array(
+                $var->decimals,
+                $var->width ? min( $var->width, 255 ) : 8,
+                $var->format,
+                0
+            );
 
             if ( $var->missing ) {
-                if ( $var->width <= 8 ) {
+                if ( $var->width <= 8 )
+                {
                     if ( count( $var->missing ) >= 3 ) {
                         $variable->missingValuesFormat = 3;
                     } elseif ( count( $var->missing ) == 2 ) {
@@ -106,12 +117,14 @@ class Writer
                     }
                     $variable->missingValues = $var->missing;
                 } else {
-                    $this->info[Record\Info\LongStringMissingValues::SUBTYPE]->data[$shortName]
-                        = $var->missing;
+                    $this->info[
+                        Record\Info\LongStringMissingValues::SUBTYPE
+                        ]->data[$shortName] = $var->missing;
                 }
             }
 
-            if ( $var->values ) {
+            if ( $var->values )
+            {
                 if ( $var->width > 8 ) {
                     $this->info[Record\Info\LongStringValueLabels::SUBTYPE]->data[$shortName]
                         = [
@@ -120,29 +133,41 @@ class Writer
                     ];
                 } else {
                     $valueLabel = new Record\ValueLabel();
-                    foreach ( $var->values as $key => $value ) {
+                    foreach ( $var->values as $key => $value )
+                    {
                         $valueLabel->vars = [$idx + 1];
-                        $valueLabel->data[] = [
-                            'value' => $var->width > 0 ? Buffer::stringToDouble( $key ) : $key,
+
+                        if ( $var->width > 0 ) {
+                            $_v = Buffer::stringToDouble( $key );
+                        } else {
+                            $_v = $key;
+                        }
+
+                        $_value = array(
+                            'value' => $_v,
                             'label' => $value
-                        ];
+                        );
+                        $valueLabel->data[] = $_value;
                     }
                     $this->valueLabels[] = $valueLabel;
                 }
             }
 
             if ( Record\Variable::isVeryLong( $var->width ) ) {
-                $this->info[Record\Info\VeryLongString::SUBTYPE]->data[$shortName] = $var->width;
+                $this->info[
+                    Record\Info\VeryLongString::SUBTYPE
+                    ]->data[$shortName] = $var->width;
             }
-            $this->info[Record\Info\LongVariableNames::SUBTYPE]->data[$shortName] = $var->name;
+
+            $_key = Record\Info\LongVariableNames::SUBTYPE;
+            $this->info[ $_key ]->data[$shortName] = $var->name;
 
             $segmentCount = Record\Variable::widthToSegments( $var->width );
-            for ( $i = 0; $i < $segmentCount; $i++ ) {
-                $this->info[Record\Info\VariableDisplayParam::SUBTYPE]->data[] = [
-                    $var->measure,
-                    $var->columns,
-                    $var->align,
-                ];
+            for ( $i = 0; $i < $segmentCount; $i++ )
+            {
+                $_key = Record\Info\VariableDisplayParam::SUBTYPE;
+                $_value = array($var->measure, $var->columns, $var->align);
+                $this->info[$_key]->data[] = $_value;
             }
 
             $dataCount = count( $var->data );

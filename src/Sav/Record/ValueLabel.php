@@ -24,7 +24,7 @@ class ValueLabel
     /**
      * @var array
      */
-    public $data = [];
+    public $data = array();
 
     /**
      * A list of dictionary indexes of variables to which to apply the value
@@ -33,7 +33,7 @@ class ValueLabel
      *
      * @var array
      */
-    public $vars = [];
+    public $vars = array();
 
 
     /**
@@ -49,16 +49,20 @@ class ValueLabel
          * record. */
         $labelCount = $buffer->readInt();
 
-        for ( $i = 0; $i < $labelCount; $i++ ) {
+        for ( $i = 0; $i < $labelCount; $i++ )
+        {
             // A numeric value or a short string value padded as necessary to
             // 8 bytes in length.
             $value = $buffer->readDouble();
             $labelLength = ord( $buffer->read( 1 ) );
-            $label = $buffer->readString( Buffer::roundUp( $labelLength + 1, 8 ) - 1 );
-            $this->data[] = [
+            $label = $buffer->readString(
+                Buffer::roundUp( $labelLength + 1, 8 ) - 1
+            );
+
+            $this->data[] = array(
                 'value' => $value,
                 'label' => $label
-            ];
+            );
         }
 
         // The value label variables record is always immediately followed

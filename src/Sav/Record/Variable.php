@@ -12,13 +12,14 @@ class Variable
     const TYPE = 2;
 
     /**
-     * Number of bytes really stored in each segment of a very long string variable.
+     * Number of bytes really stored in each segment of a very long string
+     * variable.
      */
     const REAL_VLS_CHUNK = 255;
 
     /**
-     * Number of bytes per segment by which the amount of space for very long string
-     * variables is allocated
+     * Number of bytes per segment by which the amount of space for very long
+     * string variables is allocated
      */
     const EFFECTIVE_VLS_CHUNK = 252;
 
@@ -114,15 +115,17 @@ class Variable
         $this->width = $buffer->readInt();
         $hasLabel = $buffer->readInt();
         $this->missingValuesFormat = $buffer->readInt();
-        $this->print = Buffer::intToBytes($buffer->readInt());
-        $this->write = Buffer::intToBytes($buffer->readInt());
-        $this->name = rtrim($buffer->readString(8));
+        $this->print = Buffer::intToBytes( $buffer->readInt() );
+        $this->write = Buffer::intToBytes( $buffer->readInt() );
+        $this->name = rtrim( $buffer->readString( 8 ) );
+
         if ( $hasLabel ) {
             $labelLength = $buffer->readInt();
-            $this->label = $buffer->readString($labelLength, 4);
+            $this->label = $buffer->readString( $labelLength, 4 );
         }
+
         if ( $this->missingValuesFormat != 0 ) {
-            for ( $i = 0; $i < abs($this->missingValuesFormat); $i++ ) {
+            for ( $i = 0; $i < abs( $this->missingValuesFormat ); $i++ ) {
                 $this->missingValues[] = $buffer->readDouble();
             }
         }
@@ -136,44 +139,44 @@ class Variable
      */
     public function write( Buffer $buffer )
     {
-        $seg0width = self::segmentAllocWidth($this->width, 0);
-        $hasLabel = !empty($this->label);
+        $seg0width = self::segmentAllocWidth( $this->width, 0 );
+        $hasLabel = !empty( $this->label );
 
-        $buffer->writeInt(self::TYPE);
-        $buffer->writeInt($seg0width);
-        $buffer->writeInt($hasLabel ? 1 : 0);
-        $buffer->writeInt($this->missingValuesFormat);
-        $buffer->writeInt(Buffer::bytesToInt($this->print));
-        $buffer->writeInt(Buffer::bytesToInt($this->write));
-        $buffer->writeString($this->name, 8);
+        $buffer->writeInt( self::TYPE );
+        $buffer->writeInt( $seg0width );
+        $buffer->writeInt( $hasLabel ? 1 : 0  );
+        $buffer->writeInt( $this->missingValuesFormat );
+        $buffer->writeInt( Buffer::bytesToInt( $this->print ) );
+        $buffer->writeInt( Buffer::bytesToInt( $this->write ) );
+        $buffer->writeString( $this->name, 8 );
         if ( $hasLabel ) {
-            $labelLength = strlen($this->label);
-            $buffer->writeInt($labelLength);
-            $buffer->writeString($this->label, Buffer::roundUp($labelLength, 4));
+            $labelLength = strlen( $this->label );
+            $buffer->writeInt( $labelLength );
+            $buffer->writeString( $this->label, Buffer::roundUp( $labelLength, 4 ) );
         }
         if ( $this->missingValuesFormat ) {
             foreach ( $this->missingValues as $val ) {
                 if ( $this->width == 0 ) {
-                    $buffer->writeDouble($val);
+                    $buffer->writeDouble( $val );
                 } else {
-                    $buffer->writeString($val, 8);
+                    $buffer->writeString( $val, 8 );
                 }
             }
         }
-        $this->writeBlank($buffer, $seg0width);
-        if ( self::isVeryLong($this->width) ) {
-            $countSegments = self::widthToSegments($this->width);
+        $this->writeBlank( $buffer, $seg0width );
+        if ( self::isVeryLong( $this->width ) ) {
+            $countSegments = self::widthToSegments( $this->width );
             for ( $i = 1; $i < $countSegments; $i++ ) {
-                $segWidth = self::segmentAllocWidth($this->width, $i);
-                $buffer->writeInt(self::TYPE);
-                $buffer->writeInt($segWidth);
-                $buffer->writeInt(0);
-                $buffer->writeInt(0);
-                $buffer->writeInt(0);
-                $buffer->writeInt(0);
-                $buffer->writeString($this->name, 8); // TODO: unique name
+                $segWidth = self::segmentAllocWidth( $this->width, $i );
+                $buffer->writeInt( self::TYPE );
+                $buffer->writeInt( $segWidth );
+                $buffer->writeInt( 0 );
+                $buffer->writeInt( 0 );
+                $buffer->writeInt( 0 );
+                $buffer->writeInt( 0 );
+                $buffer->writeString( $this->name, 8 ); // TODO: unique name
 //          $buffer->writeString(substr($this->name, 0, - strlen($i)) . $i, 8);
-                $this->writeBlank($buffer, $segWidth);
+                $this->writeBlank( $buffer, $segWidth );
             }
         }
     }
@@ -188,13 +191,13 @@ class Variable
     public function writeBlank( Buffer $buffer, $width )
     {
         for ( $i = 8; $i < $width; $i += 8 ) {
-            $buffer->writeInt(self::TYPE);
-            $buffer->writeInt(-1);
-            $buffer->writeInt(0);
-            $buffer->writeInt(0);
-            $buffer->writeInt(0);
-            $buffer->writeInt(0);
-            $buffer->write('        ');
+            $buffer->writeInt( self::TYPE );
+            $buffer->writeInt( -1 );
+            $buffer->writeInt( 0 );
+            $buffer->writeInt( 0 );
+            $buffer->writeInt( 0 );
+            $buffer->writeInt( 0 );
+            $buffer->write( '        ' );
         }
     }
 
@@ -253,15 +256,15 @@ class Variable
     {
         if ( $width == 0 ) {
             $bytes = 8;
-        } elseif ( !self::isVeryLong($width) ) {
+        } elseif ( !self::isVeryLong( $width ) ) {
             $bytes = $width;
         } else {
-            $chunks = floor($width / self::EFFECTIVE_VLS_CHUNK);
+            $chunks = floor( $width / self::EFFECTIVE_VLS_CHUNK );
             $remainder = $width % self::EFFECTIVE_VLS_CHUNK;
-            $bytes = $remainder + ($chunks * Buffer::roundUp(self::REAL_VLS_CHUNK, 8));
+            $bytes = $remainder + ($chunks * Buffer::roundUp( self::REAL_VLS_CHUNK, 8 ));
         }
 
-        return Buffer::roundUp($bytes, 8);
+        return Buffer::roundUp( $bytes, 8 );
     }
 
 
@@ -275,7 +278,7 @@ class Variable
      */
     public static function widthToOcts( $width )
     {
-        return self::widthToBytes($width) / 8;
+        return self::widthToBytes( $width ) / 8;
     }
 
 
@@ -292,7 +295,7 @@ class Variable
      */
     public static function widthToSegments( $width )
     {
-        return self::isVeryLong($width) ? ceil($width / self::EFFECTIVE_VLS_CHUNK) : 1;
+        return self::isVeryLong( $width ) ? ceil( $width / self::EFFECTIVE_VLS_CHUNK ) : 1;
     }
 
 
@@ -309,8 +312,8 @@ class Variable
      */
     public static function segmentAllocWidth( $width, $segment )
     {
-        return self::isVeryLong($width) ?
-            ($segment < self::widthToSegments($width) - 1 ?
+        return self::isVeryLong( $width ) ?
+            ($segment < self::widthToSegments( $width ) - 1 ?
             self::REAL_VLS_CHUNK :
             $width - $segment * self::EFFECTIVE_VLS_CHUNK) :
             $width;

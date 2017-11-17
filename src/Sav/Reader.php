@@ -40,7 +40,8 @@ class Reader
 
 
     /**
-     * Reader constructor.
+     * Initialize the reader.
+     *
      * @param Buffer $buffer
      * @throws Exception
      */
@@ -142,7 +143,7 @@ class Reader
      * Returns the reader from given SPSS file string.
      *
      * @param string $str Contents of the SPSS file
-     * 
+     *
      * @return Reader
      */
     public static function fromString( $str )

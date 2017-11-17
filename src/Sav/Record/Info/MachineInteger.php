@@ -5,7 +5,9 @@ namespace SPSS\Sav\Record\Info;
 use SPSS\Buffer;
 use SPSS\Sav\Record\Info;
 
-class MachineInteger extends Info
+
+class MachineInteger
+    extends Info
 {
     const SUBTYPE = 3;
 
@@ -47,7 +49,8 @@ class MachineInteger extends Info
      * 2        7-bit ASCII.
      * 3        8-bit ASCII.
      * 4        DEC Kanji.
-     * 1250     The windows-1250 code page for Central European and Eastern European languages.
+     * 1250     The windows-1250 code page for Central European and Eastern
+     *          European languages.
      * 1252     The windows-1252 code page for Western European languages.
      * 28591    ISO 8859-1.
      * 65001    UTF-8.
@@ -64,12 +67,13 @@ class MachineInteger extends Info
      */
     protected $dataCount = 8;
 
+
     /**
      * @param Buffer $buffer
      */
-    public function read(Buffer $buffer)
+    public function read( Buffer $buffer )
     {
-        parent::read($buffer);
+        parent::read( $buffer );
         $this->version = [$buffer->readInt(), $buffer->readInt(), $buffer->readInt()];
         $this->machineCode = $buffer->readInt();
         $this->floatingPointRep = $buffer->readInt();
@@ -78,19 +82,21 @@ class MachineInteger extends Info
         $this->characterCode = $buffer->readInt();
     }
 
+
     /**
      * @param Buffer $buffer
      */
-    public function write(Buffer $buffer)
+    public function write( Buffer $buffer )
     {
-        parent::write($buffer);
-        $buffer->writeInt($this->version[0]);
-        $buffer->writeInt($this->version[1]);
-        $buffer->writeInt($this->version[2]);
-        $buffer->writeInt($this->machineCode);
-        $buffer->writeInt($this->floatingPointRep);
-        $buffer->writeInt($this->compressionCode);
-        $buffer->writeInt($this->endianness);
-        $buffer->writeInt($this->characterCode);
+        parent::write( $buffer );
+        $buffer->writeInt( $this->version[0] );
+        $buffer->writeInt( $this->version[1] );
+        $buffer->writeInt( $this->version[2] );
+        $buffer->writeInt( $this->machineCode );
+        $buffer->writeInt( $this->floatingPointRep );
+        $buffer->writeInt( $this->compressionCode );
+        $buffer->writeInt( $this->endianness );
+        $buffer->writeInt( $this->characterCode );
     }
+
 }

@@ -23,7 +23,7 @@ abstract class Record
     public function __construct( $data = array() )
     {
         foreach ( $data as $key => $value ) {
-            $this->{$key} = $value;
+            $this->{ $key } = $value;
         }
     }
 
@@ -37,6 +37,7 @@ abstract class Record
     {
         $record = new static();
         $record->read( $buffer );
+
         return $record;
     }
 

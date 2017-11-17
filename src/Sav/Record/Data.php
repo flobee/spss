@@ -40,12 +40,12 @@ class Data
     /**
      * @var array [case_index][var_index]
      */
-    public $matrix = [];
+    public $matrix = array();
 
     /**
      * @var array Latest opcodes data
      */
-    private $opcodes = [];
+    private $opcodes = array();
 
     /**
      * @var int Current opcode index
@@ -55,21 +55,25 @@ class Data
 
     /**
      * Read from buffer.
-     * 
+     *
      * @param Buffer $buffer
      * @throws Exception
      */
     public function read( Buffer $buffer )
     {
         if ( $buffer->readInt() != 0 ) {
-            throw new \InvalidArgumentException( 'Error reading data record. Non-zero value found.' );
+            $mesg = 'Error reading data record. Non-zero value found';
+            throw new \InvalidArgumentException( $mesg );
         }
+
         if ( !isset( $buffer->context->variables ) ) {
             throw new \InvalidArgumentException( 'Variables required' );
         }
+
         if ( !isset( $buffer->context->header ) ) {
             throw new \InvalidArgumentException( 'Header required' );
         }
+
         if ( !isset( $buffer->context->info ) ) {
             throw new \InvalidArgumentException( 'Info required' );
         }
@@ -81,12 +85,14 @@ class Data
         $variables = $buffer->context->variables;
 
         $veryLongStrings = [];
-        if ( isset( $buffer->context->info[Record\Info\VeryLongString::SUBTYPE] ) ) {
-            $veryLongStrings = $buffer->context->info[Record\Info\VeryLongString::SUBTYPE]->data;
+        $_key = Record\Info\VeryLongString::SUBTYPE;
+        if ( isset( $buffer->context->info[$_key] ) ) {
+            $veryLongStrings = $buffer->context->info[$_key]->data;
         }
 
-        if ( isset( $buffer->context->info[Record\Info\MachineFloatingPoint::SUBTYPE] ) ) {
-            $sysmis = $buffer->context->info[Record\Info\MachineFloatingPoint::SUBTYPE]->sysmis;
+        $_key = Record\Info\MachineFloatingPoint::SUBTYPE;
+        if ( isset( $buffer->context->info[$_key] ) ) {
+            $sysmis = $buffer->context->info[$_key]->sysmis;
         } else {
             $sysmis = NAN;
         }
@@ -96,25 +102,34 @@ class Data
         for ( $case = 0; $case < $casesCount; $case++ ) {
             $parent = -1;
             $octs = 0;
-            foreach ( $variables as $index => $var ) {
-                if ( $var->width == 0 ) {
+            foreach ( $variables as $index => $var )
+            {
+                if ( $var->width == 0 )
+                {
                     if ( !$compressed ) {
                         $this->matrix[$case][$index] = $buffer->readDouble();
-                    } else {
+                    }
+                    else {
                         $opcode = $this->readOpcode( $buffer );
                         switch ( $opcode )
                         {
                             case self::OPCODE_NOP;
                                 break;
+
                             case self::OPCODE_EOF;
-                                throw new Exception( 'Error reading data: unexpected end of compressed data file (cluster code 252)' );
+                                $mesg = 'Error reading data: unexpected end of '
+                                    . 'compressed data file (cluster code 252)';
+                                throw new Exception( $mesg );
                                 break;
+
                             case self::OPCODE_RAW_DATA;
                                 $this->matrix[$case][$index] = $buffer->readDouble();
                                 break;
+
                             case self::OPCODE_SYSMISS;
                                 $this->matrix[$case][$index] = $sysmis;
                                 break;
+
                             default:
                                 $this->matrix[$case][$index] = $opcode - $bias;
                                 break;
@@ -130,18 +145,24 @@ class Data
                         {
                             case self::OPCODE_NOP;
                                 break;
+
                             case self::OPCODE_EOF;
-                                throw new Exception( 'Error reading data: unexpected end of compressed data file (cluster code 252)' );
+                                $mesg = 'Error reading data: unexpected end of '
+                                    . 'compressed data file (cluster code 252)';
+                                throw new Exception( $mesg );
                                 break;
+
                             case self::OPCODE_RAW_DATA;
                                 $val = $buffer->readString( 8 );
                                 break;
+
                             case self::OPCODE_WHITESPACES;
                                 $val = '        ';
                                 break;
                         }
                     }
-                    if ( $parent >= 0 ) {
+                    if ( $parent >= 0 )
+                    {
                         $this->matrix[$case][$parent] .= $val;
                         $octs--;
                         if ( $octs <= 0 ) {
@@ -149,15 +170,21 @@ class Data
                             $parent = -1;
                         }
                     } else {
-                        $width = isset( $veryLongStrings[$var->name] ) ? $veryLongStrings[$var->name]
-                                : $var->width;
-                        if ( $width > 0 ) {
+                        if (isset( $veryLongStrings[$var->name] )) {
+                            $width = $veryLongStrings[$var->name];
+                        } else {
+                            $width = $var->width;
+                        }
+
+                        if ( $width > 0 )
+                        {
                             $octs = Record\Variable::widthToOcts( $width ) - 1; // Buffer::roundUp($width, 8) / 8) -1;
                             if ( $octs > 0 ) {
                                 $parent = $index;
                             } else {
                                 $val = rtrim( $val );
                             }
+
                             $this->matrix[$case][$index] = $val;
                         }
                     }
@@ -193,8 +220,9 @@ class Data
         /** @var Variable[] $variables */
         $variables = $buffer->context->variables;
 
-        if ( isset( $buffer->context->info[Record\Info\MachineFloatingPoint::SUBTYPE] ) ) {
-            $sysmis = $buffer->context->info[Record\Info\MachineFloatingPoint::SUBTYPE]->sysmis;
+        $_key = Record\Info\MachineFloatingPoint::SUBTYPE;
+        if ( isset( $buffer->context->info[$_key] ) ) {
+            $sysmis = $buffer->context->info[$_key]->sysmis;
         } else {
             $sysmis = NAN;
         }
@@ -210,12 +238,19 @@ class Data
                         $buffer->writeDouble( $value );
                     } else {
                         if ( $value == $sysmis ) {
-                            $this->writeOpcode( $buffer, $dataBuffer, self::OPCODE_SYSMISS );
-                        } elseif ( $value >= 1 - $bias && $value <= 251 - $bias && $value == (int) $value ) {
-                            $this->writeOpcode( $buffer, $dataBuffer, $value + $bias );
+                            $this->writeOpcode(
+                                $buffer, $dataBuffer, self::OPCODE_SYSMISS
+                            );
+                        } elseif ( $value >= 1 - $bias && $value <= 251 - $bias
+                            && $value == (int) $value )
+                        {
+                            $this->writeOpcode(
+                                $buffer, $dataBuffer, $value + $bias
+                            );
                         } else {
-                            $this->writeOpcode( $buffer, $dataBuffer,
-                                self::OPCODE_RAW_DATA );
+                            $this->writeOpcode(
+                                $buffer, $dataBuffer,self::OPCODE_RAW_DATA
+                            );
                             $dataBuffer->writeDouble( $value );
                         }
                     }
@@ -225,18 +260,29 @@ class Data
                     } else {
                         $offset = 0;
                         $segmentsCount = Record\Variable::widthToSegments( $var->width );
-                        for ( $s = 0; $s < $segmentsCount; $s++ ) {
-                            $segWidth = Record\Variable::segmentAllocWidth( $var->width,
-                                    $s );
-                            for ( $i = $segWidth; $i > 0; $i -= 8, $offset += 8 ) {
+
+                        for ( $s = 0; $s < $segmentsCount; $s++ )
+                        {
+                            $segWidth =
+                                Record\Variable::segmentAllocWidth(
+                                    $var->width, $s
+                                );
+                            for ( $i = $segWidth; $i > 0; $i -= 8, $offset += 8 )
+                            {
 //                                $chunkSize = min($i, 8);
                                 $val = mb_substr( $value, $offset, 8 );
                                 if ( empty( $val ) ) {
-                                    $this->writeOpcode( $buffer, $dataBuffer,
-                                        self::OPCODE_WHITESPACES );
+                                    $this->writeOpcode(
+                                        $buffer,
+                                        $dataBuffer,
+                                        self::OPCODE_WHITESPACES
+                                    );
                                 } else {
-                                    $this->writeOpcode( $buffer, $dataBuffer,
-                                        self::OPCODE_RAW_DATA );
+                                    $this->writeOpcode(
+                                        $buffer,
+                                        $dataBuffer,
+                                        self::OPCODE_RAW_DATA
+                                    );
                                     $dataBuffer->writeString( $val, 8 );
                                 }
                             }
