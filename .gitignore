@@ -1,5 +1,8 @@
+pspp.jnl
+
 /vendor
 /tmp
 composer.lock
 /nbproject/*
 tests/data/pspp.jnl
+
