@@ -1,6 +1,6 @@
-SPSS
-====
-A PHP library for reading and writing SPSS data files.
+# SPSS / PSPP
+
+A PHP library for reading and writing SPSS / PSPP .sav data files.
 
 ## Requirements
 * PHP 5.3.*, 7.* and up.
@@ -11,53 +11,58 @@ The preferred way to install this extension is through [composer](http://getcomp
 
 Either run
 
-```
-composer require flobee/spss
-```
+    composer require flobee/spss
+
 to the require section of your `composer.json` file.
 
 
 ## Usage
 
 Reader example:
-```php
-$reader = \SPSS\Reader::fromFile('path/to/file.sav');
-```
+
+    $reader = \SPSS\Reader::fromFile('path/to/file.sav');
+
 or
-```php
-$reader = \SPSS\Reader::fromString(file_get_contents('path/to/file.sav'));
-```
+
+    $reader = \SPSS\Reader::fromString(file_get_contents('path/to/file.sav'));
+
+or (using shell)
+
+    cd tests
+    php readerDemo.php | less
+    # or to update tmp file to check for changes:
+    php readerDemo.php > data/pspp.sav.printr.txt
+
 
 Writer example:
 
-```php
-$writer = new \SPSS\Writer([
-    'header' => [
-            'prodName'     => '@(#) SPSS DATA FILE test',
-            'layoutCode'   => 2,
-            'compression'  => 1,
-            'weightIndex'  => 0,
-            'bias'         => 100,
-            'creationDate' => '13 Feb 89',
-            'creationTime' => '13:13:13',
-    ],
-    'variables' => [
-        [
-                'name'     => 'VAR1',
-                'width'    => 0,
-                'decimals' => 0
-                'format'   => 5,
-                'columns'  => 50,
-                'align'    => 1,
-                'measure'  => 1,
-                'data'     => [
-                    1, 2, 3
-                ],
+    $writer = new \SPSS\Writer([
+        'header' => [
+                'prodName'     => '@(#) SPSS DATA FILE test',
+                'layoutCode'   => 2,
+                'compression'  => 1,
+                'weightIndex'  => 0,
+                'bias'         => 100,
+                'creationDate' => '13 Feb 89',
+                'creationTime' => '23:58:59',
         ],
-        ...
-    ]
-]);
-```
+        'variables' => [
+            [
+                    'name'     => 'VAR1',
+                    'width'    => 0,
+                    'decimals' => 0
+                    'format'   => 5,
+                    'columns'  => 50,
+                    'align'    => 1,
+                    'measure'  => 1,
+                    'data'     => [
+                        1, 2, 3
+                    ],
+            ],
+            ...
+        ]
+    ]);
+
 
 
 ## License
