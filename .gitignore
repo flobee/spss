@@ -2,7 +2,8 @@ pspp.jnl
 
 /vendor
 /tmp
+/tests/tmp
 composer.lock
 /nbproject/*
 tests/data/pspp.jnl
-
+/docs/CodeCoverage/

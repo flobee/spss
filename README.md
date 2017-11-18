@@ -26,13 +26,6 @@ or
 
     $reader = \SPSS\Reader::fromString(file_get_contents('path/to/file.sav'));
 
-or (using shell)
-
-    cd tests
-    php readerDemo.php | less
-    # or to update tmp file to check for changes:
-    php readerDemo.php > data/pspp.sav.printr.txt
-
 
 Writer example:
 
@@ -63,6 +56,28 @@ Writer example:
         ]
     ]);
 
+
+## Tests / Demo / Developers
+
+Using shell:
+
+Initialy to get dependencies:
+
+    composer install
+
+then (base demo data at tests/data/pspp.sav):
+
+    cd tests
+
+    php readerDemo.php | less
+    # or to update tmp file to check for changes:
+    php readerDemo.php > data/pspp.sav.printr.txt
+
+#### running tests:
+    
+    cd tests
+    phpunit
+    # have a look at ../doc/CodeCoverage (use a browser)
 
 
 ## License

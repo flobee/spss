@@ -13,7 +13,7 @@ class SavDateFormatTest
     /**
      * @var string
      */
-    public $file = 'tests/tmp/dates.sav';
+    public $file = __DIR__ . '/../tmp/dates.sav';
 
 
     /**

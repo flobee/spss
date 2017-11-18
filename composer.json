@@ -1,9 +1,10 @@
 {
   "name": "flobee/spss",
-  "description": "SPSS php implementation (read/write)",
+  "description": "SPSS, PSPP php implementation (read/write .sav files)",
   "keywords": [
     "statistics",
     "spss",
+    "pspp",
     "por",
     "sav",
     ".sav",

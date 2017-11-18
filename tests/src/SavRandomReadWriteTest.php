@@ -12,7 +12,7 @@ class SavRandomReadWriteTest extends \PHPUnit_Framework_TestCase
     /**
      * @var string
      */
-    public $file = 'tests/tmp/data.sav';
+    public $file = __DIR__ . '/../tmp/data.sav';
 
     /**
      * @return array
