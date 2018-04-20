@@ -8,7 +8,7 @@ PHP 5.3.*, 7.* and up.
 
 ## Installation
 
-The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
+The preferred way to install this extension is through [composer](http://getcomposer.org/download/), [check here](https://packagist.org/packages/flobee/spss).
 
 Either run
 
