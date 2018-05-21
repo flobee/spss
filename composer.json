@@ -20,12 +20,16 @@
     },{
       "name": "Kornienko Vladislav",
       "email": "vk.tiamo@gmail.com"
+    }, {
+      "name": "Sam Mousa",
+      "email": "sam@mousa.nl"
     }
   ],
   "require": {
     "php": "5.3.* || 7.*"
   },
   "require-dev": {
+    "ext-bcmath": "*",
     "phpunit/phpunit": "^5"
   },
   "autoload": {
@@ -33,5 +37,8 @@
       "SPSS\\": "src/",
       "SPSS\\Tests\\": "tests/"
     }
+  },
+  "scripts": {
+    "test": "phpdbg -qrr vendor/bin/phpunit"
   }
 }

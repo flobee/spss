@@ -3,6 +3,7 @@
 namespace SPSS\Sav\Record;
 
 use SPSS\Buffer;
+use SPSS\Exception;
 use SPSS\Sav\Record;
 
 
@@ -34,6 +35,21 @@ abstract class Info
      */
     public function read( Buffer $buffer )
     {
+//        $type = $buffer->readInt();
+//        if (self::TYPE !== $type) {
+//            throw new Exception(strtr("Found unexpected type {found}, expected {expected}", [
+//                '{found}' => $type,
+//                '{expected}' => self::TYPE
+//            ]));
+//        }
+//
+//        $subtype = $buffer->readInt();
+//        if (static::SUBTYPE !== $subtype) {
+//            throw new Exception(strtr("Found unexpected subtype {found}, expected {expected}", [
+//                '{found}' => $subtype,
+//                '{expected}' => static::SUBTYPE
+//            ]));
+//        }
         $this->dataSize = $buffer->readInt();
         $this->dataCount = $buffer->readInt();
     }

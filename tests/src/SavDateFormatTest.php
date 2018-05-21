@@ -13,8 +13,17 @@ class SavDateFormatTest
     /**
      * @var string
      */
-    public $file = __DIR__ . '/../tmp/dates.sav';
+    private static $file;
 
+    public static function setUpBeforeClass()
+    {
+        self::$file = tempnam(sys_get_temp_dir(), 'spss');
+    }
+
+    public static function tearDownAfterClass()
+    {
+        unlink(self::$file );
+    }
 
     /**
      * @return array
@@ -23,28 +32,29 @@ class SavDateFormatTest
     {
         $data = $this->dataProvider();
         $writer = new Writer( $data );
-        $writer->save( $this->file );
-        $this->assertFileExists( $this->file );
+        $writer->save(self::$file);
+        $this->assertFileExists(self::$file);
         return $data;
     }
 
 
     /**
-     * @depends testWrite
      * @param array $data
+     * @depends testWrite
      */
     public function testRead( array $data )
     {
-        $reader = Reader::fromFile( $this->file );
+        $reader = Reader::fromFile(self::$file);
         $this->assertEquals( $reader->header->prodName, $data['header']['prodName'] );
         $this->assertEquals( $reader->header->nominalCaseSize, 47 );
     }
 
 
     /**
+     * This is not a PHPUnit data provider.
      * @return array
      */
-    public function dataProvider()
+    protected function dataProvider()
     {
         return [
             'header' => [
