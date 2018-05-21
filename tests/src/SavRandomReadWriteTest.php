@@ -12,7 +12,17 @@ class SavRandomReadWriteTest extends \PHPUnit_Framework_TestCase
     /**
      * @var string
      */
-    public $file = __DIR__ . '/../tmp/data.sav';
+    private static $file;
+
+    public static function setUpBeforeClass()
+    {
+        self::$file = tempnam(sys_get_temp_dir(), 'spss');
+    }
+
+    public static function tearDownAfterClass()
+    {
+        unlink(self::$file );
+    }
 
     /**
      * @return array
@@ -21,8 +31,8 @@ class SavRandomReadWriteTest extends \PHPUnit_Framework_TestCase
     {
         $data = $this->dataProvider();
         $writer = new Writer( $data );
-        $writer->save( $this->file );
-        $this->assertFileExists( $this->file );
+        $writer->save(self::$file);
+        $this->assertFileExists(self::$file);
         return $data;
     }
 
@@ -33,9 +43,9 @@ class SavRandomReadWriteTest extends \PHPUnit_Framework_TestCase
      */
     public function testRead( array $data )
     {
-        $reader = Reader::fromFile( $this->file );
+        $reader = Reader::fromFile(self::$file);
         foreach ( $data['header'] as $key => $value ) {
-            $this->assertEquals( $reader->header->{$key}, $value );
+            $this->assertEquals( $reader->header->{$key}, $value, $key);
         }
         $index = 0;
         foreach ( $data['variables'] as $var ) {
@@ -46,7 +56,7 @@ class SavRandomReadWriteTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals( $var['decimals'], $_var->print[0] );
             $this->assertEquals( $var['format'], $_var->print[2] );
             foreach ( $var['data'] as $case => $value ) {
-                $this->assertEquals( $value, $reader->data[$case][$index] );
+                $this->assertEquals(rtrim($value), $reader->data[$case][$index]);
             }
             $index += $var['width'] > 0 ? Record\Variable::widthToOcts( $var['width'] ) : 1;
         }
@@ -74,7 +84,7 @@ class SavRandomReadWriteTest extends \PHPUnit_Framework_TestCase
             ],
             'variables' => []
         ];
-        $count = mt_rand( 1, 5 );
+        $count = mt_rand( 1, 50);
         for ( $i = 0; $i < $count; $i++ ) {
             $isNumeric = rand( 0, 1 );
             $var = [

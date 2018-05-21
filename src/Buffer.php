@@ -382,7 +382,6 @@ class Buffer
      */
     public function position()
     {
-//        return ftell($this->_stream);
         return $this->_position;
     }
 
