@@ -6,9 +6,10 @@ use SPSS\Sav\Reader;
 use SPSS\Sav\Variable;
 use SPSS\Sav\Writer;
 
+use PHPUnit;
 
 class SavDateFormatTest
-    extends \PHPUnit_Framework_TestCase
+    extends PHPUnit\Framework\TestCase
 {
     /**
      * @var string
