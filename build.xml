@@ -8,10 +8,11 @@
     </target>
 
     <target name="check" description="Executes the coding style sniffer">
-        <echo msg="(NOT IN YET) Executing the coding style sniffer" />
-        <!--<exec command="${bindir}phpcs -n - -standard=misc/coding/Mumsys src tests tests/bootstrap.php tests/readerDemo.php"-->
-<!--        <exec command="${bindir}phpcs -n - -standard=MySource src tests tests/bootstrap.php tests/readerDemo.php"
-              checkreturn="true" logoutput="true"/>-->
+        <echo msg="Executing the coding style sniffer" />
+        <exec command="${bindir}phpcs -n --standard=misc/coding/Mumsys src tests" 
+              checkreturn="true" 
+              logoutput="true"
+        />
     </target>
 
     <target name="test" description="Executes the unit tests">
