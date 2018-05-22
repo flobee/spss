@@ -2,7 +2,7 @@
 
 A PHP library for reading and writing SPSS / PSPP .sav data files.
 
-VERSION 3.* (see upgrade section for details)
+VERSION 3.* (see [upgrade section](#upgrade-to-version-3) for details)
 
 
 ## Requirements
@@ -75,7 +75,7 @@ Writer example:
 
 Using shell:
 
-    git checkout https://github.com/flobee/spss.git
+    git clone https://github.com/flobee/spss.git
     cd spss/
 
 Initialy to get development dependencies:
@@ -109,7 +109,7 @@ then (base demo data at tests/data/pspp.sav will be used):
     cd tests
     sh ./runTests.sh
     
-    # have a look at ../docs/CodeCoverage (use a browser)
+    # have a look at ../docs/CodeCoverage (use a browser after execution)
     sh ./runCoverage.sh
 
 
