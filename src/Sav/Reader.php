@@ -43,9 +43,12 @@ class Reader
      * Initialize the reader.
      *
      * @param Buffer $buffer
+     * @param bool $parseData Flag to incude parsing the content/values of an spss/pspp
+     * file or not: Default: true
+     *
      * @throws Exception
      */
-    private function __construct( Buffer $buffer )
+    private function __construct( Buffer $buffer, $parseData = true )
     {
         $buffer->context = $this;
         $this->header = Record\Header::fill( $buffer );
@@ -122,7 +125,11 @@ class Reader
         }
         while ( $recType != Record\Data::TYPE );
 
-        $this->data = Record\Data::fill( $buffer )->matrix;
+        if ( $parseData === true ) {
+            $this->data = Record\Data::fill( $buffer )->matrix;
+        } else {
+            $this->data = array();
+        }
     }
 
 
@@ -130,12 +137,14 @@ class Reader
      * Reads sav file from file.
      *
      * @param string $file Location to existing file
+     * @param bool $parseData Flag to incude parsing the content/values of an spss/pspp
+     * file or not: Default: true
      *
      * @return Reader Reader interface
      */
-    public static function fromFile( $file )
+    public static function fromFile( $file, $parseData = true )
     {
-        return new self( Buffer::factory( fopen( $file, 'r' ) ) );
+        return new self( Buffer::factory( fopen( $file, 'r' ) ), $parseData );
     }
 
 
@@ -143,12 +152,14 @@ class Reader
      * Returns the reader from given SPSS file string.
      *
      * @param string $str Contents of the SPSS file
+     * @param bool $parseData Flag to incude parsing the content/values of an spss/pspp
+     * file or not: Default: true
      *
      * @return Reader
      */
-    public static function fromString( $str )
+    public static function fromString( $str, $parseData = true  )
     {
-        return new self( Buffer::factory( $str ) );
+        return new self( Buffer::factory( $str, $parseData ) );
     }
 
 }

@@ -4,17 +4,17 @@ A PHP library for reading and writing SPSS / PSPP .sav data files.
 
 ## Requirements
 
-PHP 5.3.*, 7.* and up.
+PHP 7.* and up.
 
 ## Installation
 
-The preferred way to install this extension is through [composer](http://getcomposer.org/download/), [check here](https://packagist.org/packages/flobee/spss).
+The preferred way to install this extension is through [composer](http://getcomposer.org/download/)
 
 Either run
 
     composer require flobee/spss
 
-to the require section of your `composer.json` file.
+to the require section of your `composer.json` file or [download here](https://packagist.org/packages/flobee/spss).
 
 
 ## Usage
@@ -75,10 +75,10 @@ then (base demo data at tests/data/pspp.sav):
     php readerDemo.php > data/pspp.sav.printr.txt
 
 #### running tests:
-    
+
     cd tests
-    phpunit
-    # have a look at ../doc/CodeCoverage (use a browser)
+    sh ./runTests.sh
+    # have a look at ../docs/CodeCoverage (use a browser)
 
 
 ## License

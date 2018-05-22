@@ -7,7 +7,10 @@ use SPSS\Sav\Record;
 use SPSS\Sav\Variable;
 use SPSS\Sav\Writer;
 
-class SavRandomReadWriteTest extends \PHPUnit_Framework_TestCase
+use PHPUnit;
+
+class SavRandomReadWriteTest
+    extends PHPUnit\Framework\TestCase
 {
     /**
      * @var string
