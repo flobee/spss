@@ -77,8 +77,10 @@ Using shell:
 
     git clone https://github.com/flobee/spss.git
     cd spss/
+    git submodule init # once
+    git submodule update --recursive # upgrading (after `git pull`)
 
-Initialy to get development dependencies:
+Initialy or for upgrades to get development dependencies:
     
     composer install
 
