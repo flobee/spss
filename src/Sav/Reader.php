@@ -122,8 +122,8 @@ class Reader
                     }
                     break;
             }
-        }
-        while ( $recType != Record\Data::TYPE );
+
+        } while ( $recType != Record\Data::TYPE );
 
         if ( $parseData === true ) {
             $this->data = Record\Data::fill( $buffer )->matrix;

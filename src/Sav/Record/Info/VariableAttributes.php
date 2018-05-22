@@ -25,12 +25,10 @@ class VariableAttributes
     {
         parent::read( $buffer );
         $data = $buffer->readString( $this->dataSize * $this->dataCount );
-        foreach ( explode( '/', $data ) as $item )
-        {
+        foreach ( explode( '/', $data ) as $item ) {
             list($var, $value) = explode( ':', $item );
 
-            if ( preg_match_all( '#(.+)\((.+)\)#Uis', $value, $matches ) )
-            {
+            if ( preg_match_all( '#(.+)\((.+)\)#Uis', $value, $matches ) ) {
                 $this->data[$var] = array();
 
                 foreach ( $matches[1] as $key => $val ) {

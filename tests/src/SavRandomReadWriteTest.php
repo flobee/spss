@@ -6,8 +6,8 @@ use SPSS\Sav\Reader;
 use SPSS\Sav\Record;
 use SPSS\Sav\Variable;
 use SPSS\Sav\Writer;
-
 use PHPUnit;
+
 
 class SavRandomReadWriteTest
     extends PHPUnit\Framework\TestCase
@@ -100,8 +100,9 @@ class SavRandomReadWriteTest
                 $var['width'] = mt_rand( 2, 1500 );
                 $var['decimals'] = 0;
                 for ( $c = 0; $c < $data['header']['casesCount']; $c++ ) {
-                    $var['data'][$c] = $this->generateRandomString( mt_rand( 0,
-                            $var['width'] ) );
+                    $var['data'][$c] = $this->generateRandomString(
+                        mt_rand( 0, $var['width'] )
+                    );
                 }
             }
             $data['header']['nominalCaseSize'] += Record\Variable::widthToOcts( $var['width'] );

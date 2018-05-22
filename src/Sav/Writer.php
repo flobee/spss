@@ -106,8 +106,7 @@ class Writer
             );
 
             if ( $var->missing ) {
-                if ( $var->width <= 8 )
-                {
+                if ( $var->width <= 8 ) {
                     if ( count( $var->missing ) >= 3 ) {
                         $variable->missingValuesFormat = 3;
                     } elseif ( count( $var->missing ) == 2 ) {
@@ -123,18 +122,16 @@ class Writer
                 }
             }
 
-            if ( $var->values )
-            {
+            if ( $var->values ) {
                 if ( $var->width > 8 ) {
-                    $this->info[Record\Info\LongStringValueLabels::SUBTYPE]->data[$shortName]
-                        = [
-                        'width' => $var->width,
-                        'values' => $var->values
-                    ];
+                    $this->info[ Record\Info\LongStringValueLabels::SUBTYPE ]
+                        ->data[$shortName] = array(
+                            'width' => $var->width,
+                            'values' => $var->values
+                        );
                 } else {
                     $valueLabel = new Record\ValueLabel();
-                    foreach ( $var->values as $key => $value )
-                    {
+                    foreach ( $var->values as $key => $value ) {
                         $valueLabel->vars = [$idx + 1];
 
                         if ( $var->width > 0 ) {
@@ -163,8 +160,7 @@ class Writer
             $this->info[ $_key ]->data[$shortName] = $var->name;
 
             $segmentCount = Record\Variable::widthToSegments( $var->width );
-            for ( $i = 0; $i < $segmentCount; $i++ )
-            {
+            for ( $i = 0; $i < $segmentCount; $i++ ) {
                 $_key = Record\Info\VariableDisplayParam::SUBTYPE;
                 $_value = array($var->measure, $var->columns, $var->align);
                 $this->info[$_key]->data[] = $_value;

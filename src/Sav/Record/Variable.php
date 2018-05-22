@@ -144,7 +144,7 @@ class Variable
 
         $buffer->writeInt( self::TYPE );
         $buffer->writeInt( $seg0width );
-        $buffer->writeInt( $hasLabel ? 1 : 0  );
+        $buffer->writeInt( ( $hasLabel ? 1 : 0 ) );
         $buffer->writeInt( $this->missingValuesFormat );
         $buffer->writeInt( Buffer::bytesToInt( $this->print ) );
         $buffer->writeInt( Buffer::bytesToInt( $this->write ) );

@@ -25,8 +25,7 @@ class LongStringMissingValues
         parent::read( $buffer );
         $buffer = $buffer->allocate( $this->dataCount * $this->dataSize );
 
-        while ( $varNameLength = $buffer->readInt() )
-        {
+        while ( $varNameLength = $buffer->readInt() ) {
             $varName = trim( $buffer->readString( $varNameLength ) );
             $count = ord( $buffer->read( 1 ) );
             $this->data[$varName] = [];
@@ -45,11 +44,9 @@ class LongStringMissingValues
      */
     public function write( Buffer $buffer )
     {
-        if ( $this->data )
-        {
+        if ( $this->data ) {
             $localBuffer = Buffer::factory();
-            foreach ( $this->data as $varName => $values )
-            {
+            foreach ( $this->data as $varName => $values ) {
                 $localBuffer->writeInt( strlen( $varName ) );
                 $localBuffer->writeString( $varName );
                 $localBuffer->write( chr( count( $values ) ), 1 );
@@ -58,7 +55,7 @@ class LongStringMissingValues
                     $localBuffer->writeString( $value, 8 );
                 }
             }
-            
+
             $this->dataCount = $localBuffer->position();
             parent::write( $buffer );
             $localBuffer->rewind();
