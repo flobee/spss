@@ -4,7 +4,7 @@
     <property name="bindir" value="${project.basedir}/vendor/bin/" override="false" />
 
     <target name="options" description="Options for phing">
-        <echo msg="Option for phing required: test | check | coverage | all" />
+        <echo msg="run ./phing --help or ./phing -l ; Option for phing required: test | check | coverage | all" />
     </target>
 
     <target name="check" description="Executes the coding style sniffer">
