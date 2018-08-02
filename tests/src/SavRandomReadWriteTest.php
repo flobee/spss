@@ -51,9 +51,7 @@ class SavRandomReadWriteTest
             $this->assertEquals( $var['decimals'], $_var->print[0] );
             $this->assertEquals( $var['format'], $_var->print[2] );
             foreach ( $var['data'] as $case => $value ) {
-                /**@ todo what happens here? */
-                $this->assertEquals( rtrim( $value ), $reader->data[$case][$index] );
-                //$this->assertEquals( $value, $reader->data[$case][$index] );
+                $this->assertEquals( $value, $reader->data[$case][$index] );
             }
             $index += $var['width'] > 0 ? Record\Variable::widthToOcts( $var['width'] ) : 1;
         }
@@ -124,7 +122,7 @@ class SavRandomReadWriteTest
      */
     private function generateRandomString( $length = 10 )
     {
-        $characters = ' 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $characters = '123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen( $characters );
         $randomString = '';
         for ( $i = 0; $i < $length; $i++ ) {
