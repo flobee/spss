@@ -7,7 +7,7 @@ VERSION 3.* (see [upgrade section](#upgrade-to-version-3) for details)
 
 ## Requirements
 
-PHP 7.* and up.
+PHP 7.2 and up.
 
 ## Installation
 
@@ -62,6 +62,7 @@ Writer example:
     ]);
 
 
+
 ## Demo/ playground
 
     cd tests
@@ -71,14 +72,15 @@ Writer example:
     php readerDemo.php > data/pspp.sav.printr.txt
 
 
+
 ## Tests / Developers
 
-Using shell:
+Install using shell:
 
     git clone https://github.com/flobee/spss.git
     cd spss/
     git submodule init # once
-    git submodule update --recursive # upgrading (after `git pull`)
+    git submodule update --recursive # upgrading (after a `git pull`)
 
 Initialy or for upgrades to get development dependencies:
     
@@ -86,14 +88,20 @@ Initialy or for upgrades to get development dependencies:
 
 then (base demo data at tests/data/pspp.sav will be used):
 
-    VERSION 3.*
+    VERSION 3.* (Improved additions for CI systems)
 
     # shows you the options
-    ./phing 
+    ./phing -l
+    
     # executes the tests
     ./phing test
+    
     # executes the tests and create the code coverage
     ./phing coverage
+    
+    # run all tasks (CS checks, coverage, tests)
+    ./phing all
+
     ...
 
     VERSION 2.*
@@ -106,6 +114,7 @@ then (base demo data at tests/data/pspp.sav will be used):
     php readerDemo.php > data/pspp.sav.printr.txt
 
 
+
 #### running tests:
 
     cd tests
@@ -113,6 +122,7 @@ then (base demo data at tests/data/pspp.sav will be used):
     
     # have a look at ../docs/CodeCoverage (use a browser after execution)
     sh ./runCoverage.sh
+
 
 
 ### Upgrade to version 3.*
@@ -139,30 +149,11 @@ If so try the following:
     composer update flobee/spss --with-dependencies
 
 
+
 ## Changelog
 
-Please have a look in `docs/CHANGELOG.md`
+Please have a look in [docs/CHANGELOG.md](docs/CHANGELOG.md)
 
-- VERSION 3.*
-
-    2018-05
-    - Update Reader interface/ construction
-
-      Adds optional flag to disable reading the data/contents to improve the 
-      reader performance when just analyse the stucture of an spss/pspp file
-      @ thanks to stephanw for the hint
-
-    - Updates Testing/ developer enviroment
-
-      Adds phing as default tool for tests, code coverage and additional task
-      you may need for you production/ deployment/ development.
-
-      php 5* = OFF (Maybe it works. Not tested)
-
-      VERSION/TAG 2.0.2 Created by accident (if you got it)
-
-      Beginning with php7.0 and already depricated: php7.2++ first and future...
-      not in at all :)
  
 
 ## License
