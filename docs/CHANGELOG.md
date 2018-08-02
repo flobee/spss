@@ -6,6 +6,7 @@
 
 + Merges parts from @SamMousa of #3 done in a5f8b18 , Thank you! :)
 + Updates developer tools to phpunit 7+
++ Leaves hints for min/max doubles to find out when it comes up
 
 2018-05
 
