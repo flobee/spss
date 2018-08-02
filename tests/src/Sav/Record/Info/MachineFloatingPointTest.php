@@ -29,6 +29,8 @@ class MachineFloatingPointTest
             ),
             array(
                 array(),
+                // -1.7976931348623E+308 php min double
+                //  1.7976931348623E+308 php max double
                 array(
                     'sysmis' => -1.7976931348623158E+308,
                     'highest' => 1.7976931348623158E+308,
