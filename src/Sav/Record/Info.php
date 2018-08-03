@@ -3,6 +3,7 @@
 namespace SPSS\Sav\Record;
 
 use SPSS\Buffer;
+use SPSS\Exception;
 use SPSS\Sav\Record;
 
 

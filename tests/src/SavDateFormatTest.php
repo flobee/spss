@@ -22,10 +22,11 @@ class SavDateFormatTest
      */
     public function testWrite()
     {
-        $data = $this->dataProvider();
+        $data = $this->_dataProvider();
         $writer = new Writer( $data );
         $writer->save( $this->file );
         $this->assertFileExists( $this->file );
+
         return $data;
     }
 
@@ -45,7 +46,7 @@ class SavDateFormatTest
     /**
      * @return array
      */
-    public function dataProvider()
+    private function _dataProvider()
     {
         return [
             'header' => [

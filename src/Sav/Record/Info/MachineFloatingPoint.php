@@ -12,6 +12,7 @@ class MachineFloatingPoint
     const SUBTYPE = 4;
 
     /**
+     * php max -int on 64bit
      * @var double
      */
     public $sysmis = -1.7976931348623E+308;
@@ -56,8 +57,8 @@ class MachineFloatingPoint
     {
         parent::write( $buffer );
         $buffer->writeDouble( $this->sysmis );
-        $buffer->writeDouble( $this->highest ? $this->highest : -$this->sysmis );
-        $buffer->writeDouble( $this->lowest ? $this->lowest : -$this->sysmis );
+        $buffer->writeDouble( $this->highest ? $this->highest : -$this->sysmis  );
+        $buffer->writeDouble( $this->lowest ? $this->lowest : $this->sysmis  );
     }
 
 }

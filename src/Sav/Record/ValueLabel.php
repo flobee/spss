@@ -49,8 +49,7 @@ class ValueLabel
          * record. */
         $labelCount = $buffer->readInt();
 
-        for ( $i = 0; $i < $labelCount; $i++ )
-        {
+        for ( $i = 0; $i < $labelCount; $i++ ) {
             // A numeric value or a short string value padded as necessary to
             // 8 bytes in length.
             $value = $buffer->readDouble();
@@ -92,13 +91,13 @@ class ValueLabel
     {
         $buffer->writeInt( self::TYPE );
         $buffer->writeInt( count( $this->data ) );
-        foreach ( $this->data as $item )
-        {
+        foreach ( $this->data as $item ) {
             $labelLength = min( strlen( $item['label'] ), self::LABEL_MAX_LENGTH );
             $buffer->writeDouble( $item['value'] );
             $buffer->write( chr( $labelLength ) );
-            $buffer->writeString( $item['label'],
-                Buffer::roundUp( $labelLength + 1, 8 ) - 1 );
+            $buffer->writeString(
+                $item['label'], Buffer::roundUp( $labelLength + 1, 8 ) - 1
+            );
         }
         $buffer->writeInt( 4 );
         $buffer->writeInt( count( $this->vars ) );

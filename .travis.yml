@@ -1,0 +1,17 @@
+language: php
+
+php:
+  - 7.2
+
+install:
+  - travis_retry composer install --no-interaction --no-suggest
+
+before_script:
+  - phpenv config-rm xdebug.ini
+
+script:
+  - ./phing all
+
+#after_success:
+#  - wget https://scrutinizer-ci.com/ocular.phar
+#  - php ocular.phar code-coverage:upload --format=php-clover tests/phpunit-coverage.xml

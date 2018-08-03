@@ -6,8 +6,8 @@ use SPSS\Sav\Reader;
 use SPSS\Sav\Record;
 use SPSS\Sav\Variable;
 use SPSS\Sav\Writer;
-
 use PHPUnit;
+
 
 class SavRandomReadWriteTest
     extends PHPUnit\Framework\TestCase
@@ -17,12 +17,13 @@ class SavRandomReadWriteTest
      */
     public $file = __DIR__ . '/../tmp/data.sav';
 
+
     /**
      * @return array
      */
     public function testWrite()
     {
-        $data = $this->dataProvider();
+        $data = $this->_dataProvider();
         $writer = new Writer( $data );
         $writer->save( $this->file );
         $this->assertFileExists( $this->file );
@@ -40,6 +41,7 @@ class SavRandomReadWriteTest
         foreach ( $data['header'] as $key => $value ) {
             $this->assertEquals( $reader->header->{$key}, $value );
         }
+
         $index = 0;
         foreach ( $data['variables'] as $var ) {
             /** @var Record\Variable $_var */
@@ -59,7 +61,7 @@ class SavRandomReadWriteTest
     /**
      * @return array
      */
-    public function dataProvider()
+    private function _dataProvider()
     {
         $data = [
             'header' => [
@@ -77,7 +79,7 @@ class SavRandomReadWriteTest
             ],
             'variables' => []
         ];
-        $count = mt_rand( 1, 5 );
+        $count = mt_rand( 1, 50 );
         for ( $i = 0; $i < $count; $i++ ) {
             $isNumeric = rand( 0, 1 );
             $var = [
@@ -100,29 +102,33 @@ class SavRandomReadWriteTest
                 $var['width'] = mt_rand( 2, 1500 );
                 $var['decimals'] = 0;
                 for ( $c = 0; $c < $data['header']['casesCount']; $c++ ) {
-                    $var['data'][$c] = $this->generateRandomString( mt_rand( 0,
-                            $var['width'] ) );
+                    $var['data'][$c] = $this->generateRandomString(
+                        mt_rand( 0, $var['width'] )
+                    );
                 }
             }
             $data['header']['nominalCaseSize'] += Record\Variable::widthToOcts( $var['width'] );
             $data['variables'][] = $var;
         }
+
         return $data;
     }
 
 
     /**
      * @param int $length
+     *
      * @return string
      */
     private function generateRandomString( $length = 10 )
     {
-        $characters = ' 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $characters = '123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen( $characters );
         $randomString = '';
         for ( $i = 0; $i < $length; $i++ ) {
             $randomString .= $characters[rand( 0, $charactersLength - 1 )];
         }
+
         return $randomString;
     }
 

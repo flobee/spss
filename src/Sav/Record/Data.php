@@ -102,14 +102,11 @@ class Data
         for ( $case = 0; $case < $casesCount; $case++ ) {
             $parent = -1;
             $octs = 0;
-            foreach ( $variables as $index => $var )
-            {
-                if ( $var->width == 0 )
-                {
+            foreach ( $variables as $index => $var ) {
+                if ( $var->width == 0 ) {
                     if ( !$compressed ) {
                         $this->matrix[$case][$index] = $buffer->readDouble();
-                    }
-                    else {
+                    } else {
                         $opcode = $this->readOpcode( $buffer );
                         switch ( $opcode )
                         {
@@ -161,8 +158,8 @@ class Data
                                 break;
                         }
                     }
-                    if ( $parent >= 0 )
-                    {
+
+                    if ( $parent >= 0 ) {
                         $this->matrix[$case][$parent] .= $val;
                         $octs--;
                         if ( $octs <= 0 ) {
@@ -176,9 +173,9 @@ class Data
                             $width = $var->width;
                         }
 
-                        if ( $width > 0 )
-                        {
-                            $octs = Record\Variable::widthToOcts( $width ) - 1; // Buffer::roundUp($width, 8) / 8) -1;
+                        if ( $width > 0 ) {
+                            // Buffer::roundUp($width, 8) / 8) -1;
+                            $octs = Record\Variable::widthToOcts( $width ) - 1;
                             if ( $octs > 0 ) {
                                 $parent = $index;
                             } else {
@@ -242,14 +239,13 @@ class Data
                                 $buffer, $dataBuffer, self::OPCODE_SYSMISS
                             );
                         } elseif ( $value >= 1 - $bias && $value <= 251 - $bias
-                            && $value == (int) $value )
-                        {
+                            && $value == (int) $value ) {
                             $this->writeOpcode(
                                 $buffer, $dataBuffer, $value + $bias
                             );
                         } else {
                             $this->writeOpcode(
-                                $buffer, $dataBuffer,self::OPCODE_RAW_DATA
+                                $buffer, $dataBuffer, self::OPCODE_RAW_DATA
                             );
                             $dataBuffer->writeDouble( $value );
                         }
@@ -261,14 +257,11 @@ class Data
                         $offset = 0;
                         $segmentsCount = Record\Variable::widthToSegments( $var->width );
 
-                        for ( $s = 0; $s < $segmentsCount; $s++ )
-                        {
-                            $segWidth =
-                                Record\Variable::segmentAllocWidth(
-                                    $var->width, $s
-                                );
-                            for ( $i = $segWidth; $i > 0; $i -= 8, $offset += 8 )
-                            {
+                        for ( $s = 0; $s < $segmentsCount; $s++ ) {
+                            $segWidth = Record\Variable::segmentAllocWidth(
+                                $var->width, $s
+                            );
+                            for ( $i = $segWidth; $i > 0; $i -= 8, $offset += 8 ) {
 //                                $chunkSize = min($i, 8);
                                 $val = mb_substr( $value, $offset, 8 );
                                 if ( empty( $val ) ) {
