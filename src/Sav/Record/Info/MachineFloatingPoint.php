@@ -57,8 +57,8 @@ class MachineFloatingPoint
     {
         parent::write( $buffer );
         $buffer->writeDouble( $this->sysmis );
-        $buffer->writeDouble( $this->highest ? $this->highest : -$this->sysmis  );
-        $buffer->writeDouble( $this->lowest ? $this->lowest : $this->sysmis  );
+        $buffer->writeDouble( ( $this->highest ? $this->highest : -$this->sysmis ) );
+        $buffer->writeDouble( ( $this->lowest ? $this->lowest : $this->sysmis ) );
     }
 
 }
