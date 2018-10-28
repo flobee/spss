@@ -26,16 +26,16 @@ or download from [here](https://github.com/flobee/spss/releases).
 
 Reader example:
 
-    $reader = \SPSS\Reader::fromFile('path/to/file.sav');
+    $reader = \SPSS\Sav\Reader::fromFile('path/to/file.sav');
 
 or
 
-    $reader = \SPSS\Reader::fromString(file_get_contents('path/to/file.sav'));
+    $reader = \SPSS\Sav\Reader::fromString(file_get_contents('path/to/file.sav'));
 
 
 Writer example:
 
-    $writer = new \SPSS\Writer([
+    $writer = new \SPSS\Sav\Writer([
         'header' => [
                 'prodName'     => '@(#) SPSS DATA FILE test',
                 'layoutCode'   => 2,
