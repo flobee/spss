@@ -8,7 +8,7 @@ VERSION 3.* (see [upgrade section](#upgrade-to-version-3) for details)
 
 ## Requirements
 
-PHP 7.2 and up.
+PHP 7.2, 7.3 and up.
 
 ## Installation
 
