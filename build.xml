@@ -9,7 +9,7 @@
 
     <target name="check" description="Executes the coding style sniffer">
         <echo msg="Executing the coding style sniffer" />
-        <exec command="${bindir}phpcs -n --standard=misc/coding/Mumsys src tests" 
+        <exec command="./tests/runCheckCS.sh -n src tests" 
               checkreturn="true" 
               logoutput="true"
         />
