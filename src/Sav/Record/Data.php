@@ -167,7 +167,7 @@ class Data
                             $parent = -1;
                         }
                     } else {
-                        if (isset( $veryLongStrings[$var->name] )) {
+                        if ( isset( $veryLongStrings[$var->name] ) ) {
                             $width = $veryLongStrings[$var->name];
                         } else {
                             $width = $var->width;

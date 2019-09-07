@@ -157,7 +157,7 @@ class Reader
      *
      * @return Reader
      */
-    public static function fromString( $str, $parseData = true  )
+    public static function fromString( $str, $parseData = true )
     {
         return new self( Buffer::factory( $str, $parseData ) );
     }
