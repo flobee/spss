@@ -4,8 +4,8 @@ A PHP library for reading and writing SPSS / PSPP .sav data files.
 
 VERSION 3.* (see [upgrade section](#upgrade-to-version-3) for details)
 
-[![Stable Build Status](https://travis-ci.org/flobee/spss.svg?branch=stable)](https://travis-ci.org/flobee/spss)
-[![Unstable Build Status](https://travis-ci.org/flobee/spss.svg?branch=unstable)](https://travis-ci.org/flobee/spss)
+[![Stable Build Status](https://travis-ci.org/flobee/spss.svg?branch=stable)](https://travis-ci.org/flobee/spss/branches)
+[![Unstable Build Status](https://travis-ci.org/flobee/spss.svg?branch=unstable)](https://travis-ci.org/flobee/spss/branches)
 
 <!-- doctoc hint -->
 
