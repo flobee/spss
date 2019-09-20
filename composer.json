@@ -30,6 +30,8 @@
             "role": "Developer"
         }
     ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "ext-bcmath": "*",
         "php": "7.3.*"
