@@ -31,7 +31,7 @@ class BufferTest
         $buffer = Buffer::factory( '', array('memory' => true) );
         $buffer->writeDouble( $value );
         $buffer->rewind();
-        $this->assertEquals( $value, $buffer->readDouble(), '', 0.0001 );
+        $this->assertEquals( $value, $buffer->readDouble() );
     }
 
 
