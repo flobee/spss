@@ -4,6 +4,10 @@ A PHP library for reading and writing SPSS / PSPP .sav data files.
 
 VERSION 3.* (see [upgrade section](#upgrade-to-version-3) for details)
 
+[![Stable Build Status](https://travis-ci.org/flobee/spss.svg?branch=stable)](https://travis-ci.org/flobee/spss)
+
+<!-- doctoc hint -->
+
 
 ## Requirements
 
@@ -25,16 +29,16 @@ or download from [here](https://github.com/flobee/spss/releases).
 
 Reader example:
 
-    $reader = \SPSS\Reader::fromFile('path/to/file.sav');
+    $reader = \SPSS\Sav\Reader::fromFile('path/to/file.sav');
 
 or
 
-    $reader = \SPSS\Reader::fromString(file_get_contents('path/to/file.sav'));
+    $reader = \SPSS\Sav\Reader::fromString(file_get_contents('path/to/file.sav'));
 
 
 Writer example:
 
-    $writer = new \SPSS\Writer([
+    $writer = new \SPSS\Sav\Writer([
         'header' => [
                 'prodName'     => '@(#) SPSS DATA FILE test',
                 'layoutCode'   => 2,
@@ -157,4 +161,7 @@ Please have a look in [docs/CHANGELOG.md](docs/CHANGELOG.md)
  
 
 ## License
+
+Copyright (c) 2017 Vladislav K
+
 Licensed under the [MIT license](http://opensource.org/licenses/MIT).

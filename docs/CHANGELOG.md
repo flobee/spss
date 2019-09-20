@@ -8,6 +8,13 @@
 + Updates tests
 
 
+2019-03
+
++ Updates dependencies to use also php7.3
++ Adds phpbin.sh to source your php version within the developer scripts
++ Updates test runner scripts
+
+
 2018-08
 
 + Merges parts from @SamMousa of #3 done in a5f8b18 , Thank you! :)
