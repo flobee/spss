@@ -2,6 +2,12 @@
 
 ## VERSION 3.*
 
+2019-09
+
++ Updates developer tools to phpunit 8+
++ Updates tests
+
+
 2018-08
 
 + Merges parts from @SamMousa of #3 done in a5f8b18 , Thank you! :)

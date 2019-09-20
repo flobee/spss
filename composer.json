@@ -17,13 +17,13 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Florian Blasel",
-            "email": "flobee.code@gmail.com",
-            "role": "Developer"
-        }, {
             "name": "Kornienko Vladislav",
             "email": "vk.tiamo@gmail.com",
             "role": "origin"
+        }, {
+            "name": "Florian Blasel",
+            "email": "flobee.code@gmail.com",
+            "role": "Developer"
         }, {
             "name": "Sam Mousa",
             "email": "sam@mousa.nl",
@@ -34,6 +34,7 @@
     "prefer-stable": true,
     "require": {
         "ext-bcmath": "*",
+        "ext-mbstring": "*",
         "php": "7.3.*"
     },
     "require-dev": {
