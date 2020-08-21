@@ -263,7 +263,7 @@ class Data
                             );
                             for ( $i = $segWidth; $i > 0; $i -= 8, $offset += 8 ) {
 //                                $chunkSize = min($i, 8);
-                                $val = mb_substr( $value, $offset, 8 );
+                                $val = \mb_substr( $value, $offset, 8 );
                                 if ( empty( $val ) ) {
                                     $this->writeOpcode(
                                         $buffer,

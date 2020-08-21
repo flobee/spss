@@ -28,11 +28,16 @@
             "name": "Sam Mousa",
             "email": "sam@mousa.nl",
             "role": "Developer"
+        }, {
+            "name": "Yonel Meza Avila   ",
+            "email": "yonelmeza@gmail.com",
+            "role": "Developer"
         }
     ],
     "require": {
         "ext-bcmath": "*",
-        "php": "7.2.* || 7.3.*"
+        "ext-mbstring": "*",
+        "php": "7.2.* || 7.3.* || 7.4.*"
     },
     "require-dev": {
         "phpunit/phpunit": "^7",
