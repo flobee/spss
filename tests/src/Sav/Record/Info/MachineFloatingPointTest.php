@@ -32,9 +32,9 @@ class MachineFloatingPointTest
                 // -1.7976931348623E+308 php min double
                 //  1.7976931348623E+308 php max double
                 array(
-                    'sysmis' => -1.7976931348623158E+308,
-                    'highest' => 1.7976931348623158E+308,
-                    'lowest' => -1.7976931348623158E+308
+                    'sysmis' => PHP_FLOAT_MIN,
+                    'highest' => PHP_FLOAT_MAX,
+                    'lowest' => PHP_FLOAT_MIN
                 )
             )
         );
@@ -60,7 +60,7 @@ class MachineFloatingPointTest
 
         foreach ( $expected as $key => $value ) {
             $expected = 0;
-            $actual = bcsub( $value, $read->{$key} );
+            $actual = @\bcsub( $value, $read->{$key} );
             $mesg = "Wrong value received for '$key', expected '$value', got '{$read->{$key}}'";
 
             $this->assertEquals( $expected, $actual, $mesg );
