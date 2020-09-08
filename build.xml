@@ -25,7 +25,7 @@
         <echo msg="Generates the code coverage report using the unit tests" />
         <delete file="${project.basedir}/tests/tmp/phing-unittest.log" quiet="true" failonerror="false" />
         <delete dir="${project.basedir}/docs/CodeCoverage/*" quiet="true" failonerror="false" />
-        <exec command="./runCoverage.sh" dir="tests" checkreturn="true" logoutput="true" />
+        <exec command="./runCoverageCreate.sh" dir="tests" checkreturn="true" logoutput="true" />
     </target>
 
     <target name="all" depends="check,coverage" description="Execute all parts of the package">

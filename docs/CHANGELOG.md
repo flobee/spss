@@ -2,6 +2,12 @@
 
 ## VERSION 3.*
 
+2019-09
+
++ Updates developer tools to phpunit 8+
++ Updates tests
+
+
 2019-03
 
 + Updates dependencies to use also php7.3

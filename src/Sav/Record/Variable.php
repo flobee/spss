@@ -261,7 +261,7 @@ class Variable
         } else {
             $chunks = floor( $width / self::EFFECTIVE_VLS_CHUNK );
             $remainder = $width % self::EFFECTIVE_VLS_CHUNK;
-            $bytes = $remainder + ($chunks * Buffer::roundUp( self::REAL_VLS_CHUNK, 8 ));
+            $bytes = $remainder + ( $chunks * Buffer::roundUp( self::REAL_VLS_CHUNK, 8 ) );
         }
 
         return Buffer::roundUp( $bytes, 8 );
@@ -313,9 +313,9 @@ class Variable
     public static function segmentAllocWidth( $width, $segment )
     {
         return self::isVeryLong( $width ) ?
-            ($segment < self::widthToSegments( $width ) - 1 ?
+            ( $segment < self::widthToSegments( $width ) - 1 ?
             self::REAL_VLS_CHUNK :
-            $width - $segment * self::EFFECTIVE_VLS_CHUNK) :
+            $width - $segment * self::EFFECTIVE_VLS_CHUNK ) :
             $width;
     }
 

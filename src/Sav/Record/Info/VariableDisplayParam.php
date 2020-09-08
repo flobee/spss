@@ -32,7 +32,7 @@ class VariableDisplayParam extends Info
      * @param Buffer $buffer
      * @throws Exception
      */
-    public function read(Buffer $buffer)
+    public function read( Buffer $buffer )
     {
         parent::read( $buffer );
 
@@ -45,7 +45,7 @@ class VariableDisplayParam extends Info
             throw new Exception( $mesg );
         }
 
-        if (($this->dataCount % 3) != 0) {
+        if ( ( $this->dataCount % 3 ) != 0 ) {
             $mesg = sprintf(
                 'Error reading record type 7 subtype 11: number of data '
                 . 'elements [%s] is not a multiple of 3.',
@@ -54,7 +54,7 @@ class VariableDisplayParam extends Info
             throw new Exception( $mesg );
         }
         $itemCount = $this->dataCount / 3;
-        for ($i = 0; $i < $itemCount; $i++) {
+        for ( $i = 0; $i < $itemCount; $i++ ) {
             $this->data[] = array(
                 $buffer->readInt(), // The measurement type of the variable
                 $buffer->readInt(), // The width of the display column for the variable in characters.

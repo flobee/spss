@@ -167,7 +167,7 @@ class Data
                             $parent = -1;
                         }
                     } else {
-                        if (isset( $veryLongStrings[$var->name] )) {
+                        if ( isset( $veryLongStrings[$var->name] ) ) {
                             $width = $veryLongStrings[$var->name];
                         } else {
                             $width = $var->width;
@@ -264,7 +264,9 @@ class Data
                             for ( $i = $segWidth; $i > 0; $i -= 8, $offset += 8 ) {
 //                                $chunkSize = min($i, 8);
                                 $val = mb_substr( $value, $offset, 8 );
-                                if ( empty( $val ) ) {
+                                // issue #4
+                                // if ( empty( $val ) ) {
+                                if ( ( empty( $val ) ) && ( $val !== "0" ) ) {
                                     $this->writeOpcode(
                                         $buffer,
                                         $dataBuffer,

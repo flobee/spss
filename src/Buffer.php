@@ -178,7 +178,7 @@ class Buffer
      */
     public function write( $data, $length = null )
     {
-        if ($length !== null ) {
+        if ( $length !== null ) {
             $length = fwrite( $this->_stream, $data, $length );
         } else {
             $length = fwrite( $this->_stream, $data );
