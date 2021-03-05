@@ -4,15 +4,39 @@ A PHP library for reading and writing SPSS / PSPP .sav data files.
 
 VERSION 3.* (see [upgrade section](#upgrade-to-version-3) for details)
 
-[![Stable Build Status](https://travis-ci.org/flobee/spss.svg?branch=stable)](https://travis-ci.org/flobee/spss/branches?stable)
-[![Unstable Build Status](https://travis-ci.org/flobee/spss.svg?branch=unstable)](https://travis-ci.org/flobee/spss/branches?unstable)
+[![Stable Build Status](https://travis-ci.com/flobee/spss.svg?branch=stable)](https://travis-ci.com/flobee/spss/branches?stable)
+[![Unstable Build Status](https://travis-ci.com/flobee/spss.svg?branch=unstable)](https://travis-ci.com/flobee/spss/branches?unstable)
 
-<!-- doctoc hint -->
+
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of contents**
+
++ [Requirements](#requirements)
++ [Installation](#installation)
++ [Usage](#usage)
++ [Demo/ playground](#demo-playground)
++ [Tests / Developers](#tests--developers)
+  + [Install using shell](#install-using-shell)
+  + [Update existing code](#update-existing-code)
+  + [Running tests](#running-tests)
+  + [Upgrade to version 3.*](#upgrade-to-version-3)
++ [Changelog](#changelog)
++ [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 
 
 ## Requirements
 
-PHP 7.3 and up.
+PHP 8.0 and up.
+
++ php8.0-cli
++ php8.0-mdstring
++ php8.0-bcmath
+
 
 ## Installation
 
@@ -22,7 +46,7 @@ Either run
 
     composer require flobee/spss
 
-to the require section of your `composer.json` file [see here](https://packagist.org/packages/flobee/spss) 
+to the require section of your `composer.json` file [see here](https://packagist.org/packages/flobee/spss)
 or download from [here](https://github.com/flobee/spss/releases).
 
 
@@ -80,7 +104,7 @@ Writer example:
 
 ## Tests / Developers
 
-Install using shell:
+### Install using shell
 
     git clone https://github.com/flobee/spss.git
     cd spss/
@@ -88,30 +112,28 @@ Install using shell:
     git submodule update --recursive # upgrading (after a `git pull`)
 
 Initialy or for upgrades to get development dependencies:
-    
+
     composer install
 
 then (base demo data at tests/data/pspp.sav will be used):
 
-    VERSION 3.* (Improved additions for CI systems)
+    VERSION 4 (Improved additions for CI systems)
 
     # shows you the options
     ./phing -l
-    
+
     # executes the tests
     ./phing test
-    
+
     # executes the tests and create the code coverage
     ./phing coverage
-    
+
     # run all tasks (CS checks, coverage, tests)
     ./phing all
 
     ...
 
-    VERSION 2.*
-
-    cd tests 
+    cd tests
     sh ./runTests.sh
 
     php readerDemo.php | less
@@ -119,14 +141,20 @@ then (base demo data at tests/data/pspp.sav will be used):
     php readerDemo.php > data/pspp.sav.printr.txt
 
 
+### Update existing code
 
-#### running tests:
+    git pull
+    git submodule update
+    composer install
+
+
+### Running tests
 
     cd tests
     sh ./runTests.sh
-    
+
     # have a look at ../docs/CodeCoverage (use a browser after execution)
-    sh ./runCoverage.sh
+    sh ./runTestsCoverageCreate.sh
 
 
 
@@ -148,7 +176,7 @@ Next:
 
 Dependency Errors?
 
-If you get dependency errors, you may upgrade other spss dependencies too. 
+If you get dependency errors, you may upgrade other spss dependencies too.
 If so try the following:
 
     composer update flobee/spss --with-dependencies
@@ -159,7 +187,7 @@ If so try the following:
 
 Please have a look in [docs/CHANGELOG.md](docs/CHANGELOG.md)
 
- 
+
 
 ## License
 

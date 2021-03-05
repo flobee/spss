@@ -9,8 +9,8 @@
 
     <target name="check" description="Executes the coding style sniffer">
         <echo msg="Executing the coding style sniffer" />
-        <exec command="./tests/runCheckCS.sh -n src tests" 
-              checkreturn="true" 
+        <exec command="./tests/runCheckCS.sh -n src tests"
+              checkreturn="true"
               logoutput="true"
         />
     </target>
@@ -30,5 +30,17 @@
 
     <target name="all" depends="check,coverage" description="Execute all parts of the package">
     </target>
+
+    <!--
+    update the documentations "table of contents" [toc] in docs/
+    -->
+    <target name="updatedoctocs" description="Updates **table of contents** of docs/*.md files">
+        <property name="list" value="README.md;docs/CHANGELOG.md;docs/BENCHMARKS.md" />
+        <foreach list="${list}" param="docfile" delimiter=";" target="updatedoctocs_do"/>
+    </target>
+    <target name="updatedoctocs_do" description="Internal usage for 'updatedoctocs'">
+         <echo>${docfile}</echo>
+         <exec command="doctoc --title '**Table of contents**' --entryprefix '+'  ${docfile}" dir="." checkreturn="true" logoutput="true" />
+   </target>
 
 </project>

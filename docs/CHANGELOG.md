@@ -1,4 +1,30 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of contents**
+
++ [Changelog](#changelog)
+  + [VERSION 4.*](#version-4)
+  + [VERSION 3.*](#version-3)
+  + [VERSION 2.0.1](#version-201)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Changelog
+
+## VERSION 4.*
+
+Version 4.0.0-beta1
+
+PHP 8+ only because of several dependency problems to be more up to date and goin to be
+more strict in the code base. PHP 8 offers so many good improvements and bug fixes that
+there is no reason to not switching to it.
+
+2021-03
+
++ Updates dependencies (composer, test tools and test runner configs)
++ Updates tests/ fixes implementation
+
+
 
 ## VERSION 3.*
 

@@ -13,9 +13,10 @@ class MachineFloatingPoint
 
     /**
      * php max -int on 64bit
+     * https://code.tutsplus.com/tutorials/php-integers-floats-and-number-strings--cms-32048
      * @var double
      */
-    public $sysmis = -1.7976931348623E+308;
+    public $sysmis = -1.7976931348623E+308; // PHP_FLOAT_MIN possible
 
     /**
      * @var double
