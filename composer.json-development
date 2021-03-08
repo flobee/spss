@@ -47,6 +47,10 @@
     "require-dev": {
         "phpunit/phpunit": "^5.7 || ^6.4 || ^7.0 || ^9",
         "friendsofphp/php-cs-fixer": "^2.16",
+        "phpstan/phpstan": "^0.12.80",
+        "ergebnis/phpstan-rules": "*",
+        "phpstan/phpstan-strict-rules": "*",
+        "thecodingmachine/phpstan-strict-rules": "*",
 
         "composer/composer": "^2",
         "phing/phing": "^2",

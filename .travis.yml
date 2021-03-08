@@ -1,5 +1,9 @@
 #dist: trusty
 
+env:
+  global:
+    - XDEBUG_MODE=coverage
+
 language: php
 
 php:
@@ -11,6 +15,17 @@ php:
   - 7.4
   - 8.0
   - nightly
+
+
+matrix:
+  allow_failures:
+    - php: 5.6
+    - php: 7.0
+    - php: 7.1
+    - php: 7.2
+# 4.0.0-beta* version:
+    - php: 8.0
+    - php: nightly
 
 branches:
   only:
@@ -28,13 +43,14 @@ install:
 
 before_script:
   - git submodule update --init --recursive
-  - phpenv config-rm xdebug.ini || true
+#having coverage via travis-ci output
+#  - phpenv config-rm xdebug.ini || true
 
 script:
 # enable/ replace if all fits/ succeeds
 #  - ./phing all
   - ./vendor/bin/phpunit -c tests/phpunit.xml --coverage-text
-  - ./vendor/bin/phpstan analyse --level=1 src tests
+#  - if [ `php -v` gt "7.1" ]; then ./vendor/bin/phpstan analyse --level=1 src tests fi
 #  - ./vendor/bin/phpcs -n --standard=misc/coding/Mumsys ./src ./tests/src
 
 #after_success:
@@ -44,7 +60,3 @@ script:
 #  matrix:
 #    - COMPOSER_FLAGS="--prefer-lowest"
 #    - COMPOSER_FLAGS=""
-
-matrix:
-  allow_failures:
-    - php: nightly
