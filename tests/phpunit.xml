@@ -4,6 +4,7 @@
     bootstrap="bootstrap.php"
     backupGlobals="false"
     backupStaticAttributes="false"
+    beStrictAboutTestsThatDoNotTestAnything="true"
     colors="true"
     verbose="true"
     convertErrorsToExceptions="true"
@@ -16,11 +17,14 @@
         <include>
             <directory>../src/</directory>
         </include>
+        <report>
+            <html outputDirectory="../docs/CodeCoverage/" lowUpperBound="35" highLowerBound="70"/>
+        </report>
     </coverage>
 
     <testsuites>
-        <testsuite name="SPSS, PSPP php implementation (read/write)">
-            <directory>src/</directory>
+        <testsuite name="SPSS Test Suite">
+            <directory suffix="Test.php">src/</directory>
         </testsuite>
     </testsuites>
 

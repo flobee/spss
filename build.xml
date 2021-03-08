@@ -9,9 +9,7 @@
 
     <target name="check" description="Executes the coding style sniffer">
         <echo msg="Executing the coding style sniffer" />
-        <exec command="./tests/runCheckCS.sh -n src tests"
-              checkreturn="true"
-              logoutput="true"
+        <exec command="./tests/runCSCheck.sh -n src tests" checkreturn="true" logoutput="true"
         />
     </target>
 
@@ -25,10 +23,15 @@
         <echo msg="Generates the code coverage report using the unit tests" />
         <delete file="${project.basedir}/tests/tmp/phing-unittest.log" quiet="true" failonerror="false" />
         <delete dir="${project.basedir}/docs/CodeCoverage/*" quiet="true" failonerror="false" />
-        <exec command="./runCoverageCreate.sh" dir="tests" checkreturn="true" logoutput="true" />
+        <exec command="./runTestsCoverageCreate.sh" dir="tests" checkreturn="true" logoutput="true" />
     </target>
 
-    <target name="all" depends="check,coverage" description="Execute all parts of the package">
+    <target name="sca" description="Static code analysis">
+        <echo msg="Static code analysis (level: 1)" />
+        <exec command="./runStaticCodeAnalysis.sh --level=1 ../src ." dir="tests" checkreturn="true" logoutput="true"/>
+    </target>
+
+    <target name="all" depends="check,coverage,sca" description="Execute all parts of the package">
     </target>
 
     <!--

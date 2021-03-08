@@ -34,15 +34,19 @@ class Buffer
     /**
      * Buffer constructor.
      *
-     * @param resource $stream Stream resource to wrap.
-     * @param array $options Associative array of options.
+     * @param resource $stream  stream resource to wrap
+     * @param array    $options associative array of options
      */
     private function __construct( $stream, $options = [] )
     {
-        if ( !is_resource( $stream ) ) {
-            throw new \InvalidArgumentException( 'Stream must be a resource' );
+        if ( !\is_resource( $stream ) ) {
+            throw new \InvalidArgumentException( 'Stream must be a resource.' );
         }
         $this->_stream = $stream;
+
+        if ( isset( $options['context'] ) ) {
+            $this->context = $options['context'];
+        }
     }
 
 
@@ -50,29 +54,25 @@ class Buffer
      * Create a new stream based on the input type.
      *
      * @param resource|string $resource Entity body data
-     * @param array $options Additional options
+     * @param array           $options  Additional options
      *
      * @return Buffer
      */
     public static function factory( $resource = '', $options = [] )
     {
-        $type = gettype( $resource );
-        switch ( $type )
-        {
-            case 'string':
-                if ( isset( $options['memory'] ) ) {
-                    $stream = fopen( 'php://memory', 'r+' );
-                } else {
-                    $stream = fopen( 'php://temp', 'r+' );
-                }
+        $type = \gettype( $resource );
 
-                if ( $resource !== '' ) {
+        switch ( $type ) {
+            case 'string':
+                $stream = isset( $options['memory'] ) ?
+                    fopen( 'php://memory', 'rb+' ) :
+                    fopen( 'php://temp', 'rb+' );
+                if ( '' !== $resource ) {
                     fwrite( $stream, $resource );
                     fseek( $stream, 0 );
                 }
 
                 return new self( $stream, $options );
-
             case 'resource':
                 return new self( $resource, $options );
 
@@ -82,21 +82,21 @@ class Buffer
                 }
         }
 
-        $mesg = sprintf( 'Invalid resource type: %s', $type );
-        throw new \InvalidArgumentException( $mesg );
+        throw new \InvalidArgumentException( sprintf( 'Invalid resource type: %s.', $type ) );
     }
 
 
     /**
-     * @param int $length
+     * @param int  $length
      * @param bool $skip
      *
-     * @return Buffer
      * @throws Exception
+     *
+     * @return Buffer
      */
     public function allocate( $length, $skip = true )
     {
-        $stream = fopen( 'php://memory', 'r+' );
+        $stream = fopen( 'php://memory', 'rb+' );
         if ( stream_copy_to_stream( $this->_stream, $stream, $length ) ) {
             if ( $skip ) {
                 $this->skip( $length );
@@ -104,8 +104,17 @@ class Buffer
 
             return new self( $stream );
         }
+        throw new Exception( 'Buffer allocation failed.' );
+    }
 
-        throw new Exception( 'Buffer allocation failed' );
+    /**
+     * @param int $length
+     *
+     * @return void
+     */
+    public function skip( $length )
+    {
+        $this->_position += $length;
     }
 
 
@@ -117,26 +126,27 @@ class Buffer
     public function saveToFile( $file )
     {
         rewind( $this->_stream );
+
         return file_put_contents( $file, $this->_stream );
     }
 
 
     /**
-     * @param resource $res
-     * @param null|int $maxlength
+     * @param resource $resource
+     * @param int|null $maxlength
      *
      * @return false|int
      */
-    public function writeStream( $res, $maxlength = null )
+    public function writeStream( $resource, $maxlength = null )
     {
-        if ( !is_resource( $res ) ) {
-            throw new \InvalidArgumentException( 'Invalid resource type' );
+        if ( !\is_resource( $resource ) ) {
+            throw new \InvalidArgumentException( 'Invalid resource type.' );
         }
 
         if ( $maxlength ) {
-            $length = stream_copy_to_stream( $res, $this->_stream, $maxlength );
+            $length = stream_copy_to_stream( $resource, $this->_stream, $maxlength );
         } else {
-            $length = stream_copy_to_stream( $res, $this->_stream );
+            $length = stream_copy_to_stream( $resource, $this->_stream );
         }
 
         $this->_position += $length;
@@ -155,38 +165,29 @@ class Buffer
 
 
     /**
-     * @param int $len Length/ number of bytes to read
+     * @param int  $length
+     * @param int  $round
+     * @param null $charset
      *
      * @return false|string
      */
-    public function read( $len )
+    public function readString( $length, $round = 0, $charset = null )
     {
-        $bytes = stream_get_contents( $this->_stream, $len, $this->_position );
-        if ( $bytes !== false ) {
-            $this->_position += $len;
+        if ( $bytes = $this->readBytes( $length ) ) {
+            if ( $round !== 0 ) {
+                $this->skip( Utils::roundUp( $length, $round ) - $length );
+            }
+            $str = Utils::bytesToString( $bytes );
+            if ( $charset ) {
+                $str = mb_convert_encoding( $str, 'utf8', $charset );
+            } elseif ( !empty( $this->charset ) ) {
+                $str = mb_convert_encoding( $str, 'utf8', $this->charset );
+            }
+
+            return $str;
         }
 
-        return $bytes;
-    }
-
-
-    /**
-     * @param string $data
-     * @param null|int $length
-     *
-     * @return false|int
-     */
-    public function write( $data, $length = null )
-    {
-        if ( $length !== null ) {
-            $length = fwrite( $this->_stream, $data, $length );
-        } else {
-            $length = fwrite( $this->_stream, $data );
-        }
-
-        $this->_position += $length;
-
-        return $length;
+        return false;
     }
 
 
@@ -198,7 +199,7 @@ class Buffer
     public function readBytes( $length )
     {
         $bytes = $this->read( $length );
-        if ( $bytes != false ) {
+        if ( false !== $bytes ) {
             return array_values( unpack( 'C*', $bytes ) );
         }
 
@@ -208,44 +209,33 @@ class Buffer
 
     /**
      * @param int $length
-     * @param int $round
-     * @param null $charset
      *
      * @return false|string
      */
-    public function readString( $length, $round = 0, $charset = null )
+    public function read( $length = null )
     {
-        if ( $bytes = $this->readBytes( $length ) ) {
-            if ( $round ) {
-                $this->skip( self::roundUp( $length, $round ) - $length );
-            }
-            $str = self::bytesToString( $bytes );
-            if ( $charset ) {
-                $str = iconv( $charset, 'utf8', $str );
-            } elseif ( $this->charset ) {
-                $str = iconv( $this->charset, 'utf8', $str );
-            }
-
-            return $str;
+        $bytes = stream_get_contents( $this->_stream, $length, $this->_position );
+        if ( false !== $bytes ) {
+            $this->_position += $length;
         }
 
-        return false;
+        return $bytes;
     }
 
 
     /**
      * @param $data
      * @param int|string $length
-     * @param null $charset
+     * @param null       $charset
      *
      * @return false|int
      */
     public function writeString( $data, $length = '*', $charset = null )
     {
         if ( $charset ) {
-            $data = iconv( 'utf8', $charset, $data );
-        } elseif ( $this->charset ) {
-            $data = iconv( 'utf8', $this->charset, $data );
+            $data = mb_convert_encoding( $data, 'utf8', $charset );
+        } elseif ( !empty( $this->charset ) ) {
+            $data = mb_convert_encoding( $data, 'utf8', $this->charset );
         }
 
         return $this->write( pack( 'A' . $length, $data ) );
@@ -253,41 +243,22 @@ class Buffer
 
 
     /**
-     * @param int $length
-     * @param string $format
-     * @return false|int|float|double
-     */
-    private function readNumeric( $length, $format )
-    {
-        $bytes = $this->read( $length );
-        if ( $bytes != false ) {
-            if ( $this->isBigEndian ) {
-                $bytes = strrev( $bytes );
-            }
-            $data = unpack( $format, $bytes );
-
-            return $data[1];
-        }
-
-        return false;
-    }
-
-
-    /**
-     * @param $data
-     * @param $format
-     * @param null $length
+     * @param string   $data
+     * @param int|null $length
      *
      * @return false|int
      */
-    public function writeNumeric( $data, $format, $length = null )
+    public function write( $data, $length = null )
     {
-        return $this->write( pack( $format, $data ), $length );
+        $length = $length ? fwrite( $this->_stream, $data, $length ) : fwrite( $this->_stream, $data );
+        $this->_position += $length;
+
+        return $length;
     }
 
 
     /**
-     * @return double
+     * @return float
      */
     public function readDouble()
     {
@@ -305,6 +276,18 @@ class Buffer
         return $this->writeNumeric( $data, 'd', 8 );
     }
 
+
+    /**
+     * @param $data
+     * @param $format
+     * @param null $length
+     *
+     * @return false|int
+     */
+    public function writeNumeric( $data, $format, $length = null )
+    {
+        return $this->write( pack( $format, $data ), $length );
+    }
 
     /**
      * @return false|float
@@ -382,7 +365,7 @@ class Buffer
      */
     public function position()
     {
-//        return ftell($this->_stream);
+        // return ftell($this->_stream);
         return $this->_position;
     }
 
@@ -395,6 +378,8 @@ class Buffer
      */
     public function seek( $offset, $whence = SEEK_SET )
     {
+        $this->_position = $offset;
+
         return fseek( $this->_stream, $offset, $whence );
     }
 
@@ -404,8 +389,9 @@ class Buffer
      */
     public function rewind()
     {
-        rewind( $this->_stream );
-        $this->_position = 0;
+        if ( rewind( $this->_stream ) ) {
+            $this->_position = 0;
+        }
     }
 
 
@@ -420,13 +406,11 @@ class Buffer
 
 
     /**
-     * @param int $length
-     *
-     * @return void
+     * @return true|false
      */
-    public function skip( $length )
+    public function close()
     {
-        $this->_position += $length;
+        return fclose( $this->_stream );
     }
 
 
@@ -440,97 +424,23 @@ class Buffer
 
 
     /**
-     * @param double $num
+     * @param int    $length
+     * @param string $format
      *
-     * @return string
+     * @return false|int|float|float
      */
-    public static function doubleToString( $num )
+    private function readNumeric( $length, $format )
     {
-        return self::bytesToString( unpack( 'C8', pack( 'd', $num ) ) );
-    }
+        $bytes = $this->read( $length );
+        if ( false !== $bytes ) {
+            if ( $this->isBigEndian ) {
+                $bytes = strrev( $bytes );
+            }
+            $data = unpack( $format, $bytes );
 
-
-    /**
-     * @param string $str
-     *
-     * @return double
-     */
-    public static function stringToDouble( $str )
-    {
-        $data = unpack( 'd', pack( 'A8', $str ) );
-
-        return $data[1];
-    }
-
-
-    /**
-     * @param array $bytes
-     *
-     * @return string
-     */
-    public static function bytesToString( array $bytes )
-    {
-        $str = '';
-        foreach ( $bytes as $byte ) {
-            $str .= chr( $byte );
+            return $data[1];
         }
 
-        return $str;
+        return false;
     }
-
-
-    /**
-     * @param array $bytes
-     *
-     * @return int
-     */
-    public static function bytesToInt( array $bytes )
-    {
-        return $bytes[3] << 24 | $bytes[2] << 16 | $bytes[1] << 8 | $bytes[0];
-    }
-
-
-    /**
-     * @param $int
-     *
-     * @return array
-     */
-    public static function intToBytes( $int )
-    {
-        return [
-            0xFF & $int,
-            0xFF & $int >> 8,
-            0xFF & $int >> 16,
-            0xFF & $int >> 24,
-        ];
-    }
-
-
-    /**
-     * Rounds X up to the next multiple of Y.
-     *
-     * @param int $x
-     * @param int $y
-     *
-     * @return int
-     */
-    public static function roundUp( $x, $y )
-    {
-        return ceil( $x / $y ) * $y;
-    }
-
-
-    /**
-     * Rounds X down to the prev multiple of Y.
-     *
-     * @param int $x
-     * @param int $y
-     *
-     * @return int
-     */
-    public static function roundDown( $x, $y )
-    {
-        return floor( $x / $y ) * $y;
-    }
-
 }

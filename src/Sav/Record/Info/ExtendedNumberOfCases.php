@@ -12,7 +12,7 @@ class ExtendedNumberOfCases
     const SUBTYPE = 16;
 
     /**
-     * @var double
+     * @var float
      */
     public $ncases = 0;
 

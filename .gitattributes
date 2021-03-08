@@ -1,0 +1,4 @@
+tmp export-ignore
+tests/tmp export-ignore
+.travis.* export-ignore
+* text=auto

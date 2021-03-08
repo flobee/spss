@@ -1,12 +1,18 @@
 # SPSS / PSPP
 
+
 A PHP library for reading and writing SPSS / PSPP .sav data files.
 
-VERSION 3.* (see [upgrade section](#upgrade-to-version-3) for details)
+VERSION 4.* (see [upgrade section](#upgrade-to-version-3) for details)
 
 [![Stable Build Status](https://travis-ci.com/flobee/spss.svg?branch=stable)](https://travis-ci.com/flobee/spss/branches?stable)
 [![Unstable Build Status](https://travis-ci.com/flobee/spss.svg?branch=unstable)](https://travis-ci.com/flobee/spss/branches?unstable)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/flobee/spss.svg?style=flat-square)](https://packagist.org/packages/flobee/spss)
+[![Total Downloads](https://img.shields.io/packagist/dt/flobee/spss.svg?style=flat-square)](https://packagist.org/packages/flobee/spss)
 
+
+Fork of tiamo/spss. Mostly same code base. Introdusing a more complete test enviroment
+which now exists over there. So, one day i switch back to it.
 
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -33,9 +39,9 @@ VERSION 3.* (see [upgrade section](#upgrade-to-version-3) for details)
 
 PHP 8.0 and up.
 
-+ php8.0-cli
-+ php8.0-mdstring
-+ php8.0-bcmath
++ php-cli
++ php-mdstring
++ php-bcmath
 
 
 ## Installation
@@ -115,31 +121,6 @@ Initialy or for upgrades to get development dependencies:
 
     composer install
 
-then (base demo data at tests/data/pspp.sav will be used):
-
-    VERSION 4 (Improved additions for CI systems)
-
-    # shows you the options
-    ./phing -l
-
-    # executes the tests
-    ./phing test
-
-    # executes the tests and create the code coverage
-    ./phing coverage
-
-    # run all tasks (CS checks, coverage, tests)
-    ./phing all
-
-    ...
-
-    cd tests
-    sh ./runTests.sh
-
-    php readerDemo.php | less
-    # or to update tmp file to check for changes:
-    php readerDemo.php > data/pspp.sav.printr.txt
-
 
 ### Update existing code
 
@@ -150,11 +131,34 @@ then (base demo data at tests/data/pspp.sav will be used):
 
 ### Running tests
 
+    VERSION 4:
+    Improved additions for CI systems (e.g: jenkins) where `phing` is the
+    prefered build tool. `composer` the prefered package manager.
+
+    # shows you the options
+    ./phing -l
+
+    # executes the tests
+    ./phing test
+
+    # executes the tests and create the code coverage
+    ./phing coverage
+
+    # run all tasks (CS checks, coverage, tests, sca...)
+    ./phing all
+
+    ...
+
     cd tests
     sh ./runTests.sh
 
     # have a look at ../docs/CodeCoverage (use a browser after execution)
     sh ./runTestsCoverageCreate.sh
+
+    # playground:
+    php readerDemo.php | less
+    # or to update tmp file to check for changes:
+    php readerDemo.php > data/pspp.sav.printr.txt
 
 
 
@@ -191,6 +195,8 @@ Please have a look in [docs/CHANGELOG.md](docs/CHANGELOG.md)
 
 ## License
 
-Copyright (c) 2017 Vladislav K
+Copyright (c) 2017 Vladyslav Korniienko
 
-Licensed under the [MIT license](http://opensource.org/licenses/MIT).
+[License text](LICENSE.md)
+
+Licensed under the [MIT license](http://opensource.org/licenses/MIT)

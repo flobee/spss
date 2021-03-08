@@ -14,8 +14,13 @@ class CharacterEncoding
     /**
      * @var string
      */
-    public $data;
+    public $value;
 
+    /** @noinspection MagicMethodsValidityInspection */
+    public function __construct( $value )
+    {
+        $this->value = $value;
+    }
 
     /**
      * @param Buffer $buffer
@@ -23,18 +28,17 @@ class CharacterEncoding
     public function read( Buffer $buffer )
     {
         parent::read( $buffer );
-        $this->data = $buffer->readString( $this->dataSize * $this->dataCount );
+        $this->value = $buffer->readString( $this->dataSize * $this->dataCount );
     }
-
 
     /**
      * @param Buffer $buffer
      */
     public function write( Buffer $buffer )
     {
-        $this->dataCount = strlen( $this->data );
+        $this->dataCount = \strlen( $this->value );
         parent::write( $buffer );
-        $buffer->writeString( $this->data );
+        $buffer->writeString( $this->value );
     }
 
 }
