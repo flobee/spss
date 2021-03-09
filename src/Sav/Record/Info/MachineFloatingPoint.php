@@ -19,11 +19,11 @@ class MachineFloatingPoint extends Info
     const SUBTYPE = 4;
 
     /**
-     * php max -int on 64bit
+     * php max -float on 64bit
      * https://code.tutsplus.com/tutorials/php-integers-floats-and-number-strings--cms-32048
      * @var float
      */
-    public $sysmis; // -1.7976931348623E+308; // PHP_FLOAT_MIN possible
+    public $sysmis; // -1.7976931348623E+308; // PHP_FLOAT_MIN possible (64bit)
 
     /**
      * @var float
@@ -63,15 +63,15 @@ class MachineFloatingPoint extends Info
      */
     public function write( Buffer $buffer )
     {
-        if ( $this->sysmis === 0.0 ) {
+        if ( $this->sysmis === null ) {
             $this->sysmis = -PHP_FLOAT_MAX;
         }
 
-        if ( $this->highest === 0.0 ) {
+        if ( $this->highest === null ) {
             $this->highest = PHP_FLOAT_MAX;
         }
 
-        if ( $this->lowest === 0.0 ) {
+        if ( $this->lowest === null ) {
             $this->lowest = -PHP_FLOAT_MAX;
         }
 

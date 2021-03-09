@@ -46,18 +46,24 @@ class MachineFloatingPointTest extends TestCase
         foreach ( $attributes as $key => $value ) {
             $subject->{$key} = $value;
         }
+
         $buffer = Buffer::factory( '', ['memory' => true] );
         $this->assertEquals( 0, $buffer->position() );
+
         $subject->write( $buffer );
         $buffer->rewind();
         $buffer->skip( 8 );
         $read = MachineFloatingPoint::fill( $buffer );
+
         $this->assertEquals( 40, $buffer->position() );
+
         foreach ( $expected as $key => $value ) {
-            $expected = 0;
-            $actual   = @bcsub( $value, $read->{$key} );
-            $msg      = "Wrong value received for '$key', expected '$value', got '{$read->{$key}}'";
-            $this->assertEquals( $expected, $actual, $msg );
+            $exp = 0;
+            # https://www.php.net/manual/de/function.bccomp.php#122409
+            $actual = bcsub( sprintf( '%F', $value ), sprintf( '%F', $read->{$key} ) );
+            $msg = "Wrong value received for '$key', expected '$value', got '{$read->{$key}}'";
+
+            $this->assertEquals( $exp, $actual, $msg );
         }
     }
 }
