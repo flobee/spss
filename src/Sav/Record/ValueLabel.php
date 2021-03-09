@@ -9,8 +9,10 @@ use SPSS\Utils;
 
 
 /**
- * The value label records documented in this section are used for numeric and short string variables only.
- * Long string variables may have value labels, but their value labels are recorded using a different record type.
+ * The value label records documented in this section are used for numeric and short
+ * string variables only.
+ * Long string variables may have value labels, but their value labels are recorded using
+ * a different record type.
  *
  * @see Info\LongStringValueLabels
  */
@@ -73,7 +75,11 @@ class ValueLabel
         // after a value label record.
         $recType = $buffer->readInt();
         if ( 4 !== $recType ) {
-            throw new Exception( sprintf( 'Error reading Variable Index record: bad record type [%s]. Expecting Record Type 4.', $recType ) );
+            $mesg = sprintf(
+                'Error reading Variable Index record: bad record type [%s]. Expecting Record Type 4.',
+                $recType
+            );
+            throw new Exception( $mesg );
         }
 
         // Number of variables that the associated value labels from the value

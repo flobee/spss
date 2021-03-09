@@ -378,7 +378,8 @@ class Data
      *
      * @return array
      */
-    protected function readCaseData( Buffer $buffer, $compressed, $bias, $variables, $veryLongStrings, $sysmis )
+    protected function readCaseData( Buffer $buffer, $compressed, $bias, $variables,
+        $veryLongStrings, $sysmis )
     {
         $result   = [];
         $varCount = \count( $variables );
@@ -389,9 +390,6 @@ class Data
             $isNumeric = 0 === $var->width && \SPSS\Sav\Variable::isNumberFormat( $var->write[1] );
             $width = isset( $var->write[2] ) ? $var->write[2] : $var->width;
 
-            // var_dump($var);
-            // exit;
-
             if ( $isNumeric ) {
                 if ( !$compressed ) {
                     $result[$varNum] = $buffer->readDouble();
@@ -401,7 +399,9 @@ class Data
                         case self::OPCODE_NOP:
                             break;
                         case self::OPCODE_EOF:
-                            throw new Exception( 'Error reading data: unexpected end of compressed data file (cluster code 252)' );
+                            $mesg = 'Error reading data: unexpected end of compressed '
+                            . 'data file (cluster code 252)';
+                            throw new Exception( $mesg );
                             break;
                         case self::OPCODE_RAW_DATA:
                             $result[$varNum] = $buffer->readDouble();
@@ -435,7 +435,9 @@ class Data
                                 case self::OPCODE_NOP:
                                     break 2;
                                 case self::OPCODE_EOF:
-                                    throw new Exception( 'Error reading data: unexpected end of compressed data file (cluster code 252)' );
+                                    $mesg = 'Error reading data: unexpected end of '
+                                    . 'compressed data file (cluster code 252)';
+                                    throw new Exception( $mesg );
                                     break 2;
                                 case self::OPCODE_RAW_DATA:
                                     $val = $buffer->readString( 8 );
@@ -468,7 +470,8 @@ class Data
      *
      * @return void
      */
-    protected function writeCaseData( Buffer $buffer, $row, $compressed, $bias, $variables, $veryLongStrings, $sysmis )
+    protected function writeCaseData( Buffer $buffer, $row, $compressed, $bias,
+        $variables, $veryLongStrings, $sysmis )
     {
         foreach ( $variables as $index => $var ) {
             $value = $row[$index];

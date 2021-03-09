@@ -19,14 +19,17 @@ class Variable
     const REAL_VLS_CHUNK = 255;
 
     /**
-     * Number of bytes per segment by which the amount of space for very long string variables is allocated.
+     * Number of bytes per segment by which the amount of space for very long string
+     * variables is allocated.
      */
     const EFFECTIVE_VLS_CHUNK = 252;
 
     /**
      * Set to 0 for a numeric variable.
-     * For a short string variable or the first part of a long string variable, this is set to the width of the string.
-     * For the second and subsequent parts of a long string variable, set to -1, and the remaining fields in the structure are ignored.
+     * For a short string variable or the first part of a long string variable, this is
+     * set to the width of the string.
+     * For the second and subsequent parts of a long string variable, set to -1, and the
+     * remaining fields in the structure are ignored.
      *
      * @var int variable width
      */
@@ -89,14 +92,16 @@ class Variable
 
     /**
      * It has the same number of 8-byte elements as the absolute value of $missingValuesFormat.
-     * Each element is interpreted as a number for numeric variables (with HIGHEST and LOWEST indicated as described in the chapter introduction).
-     * For string variables of width less than 8 bytes, elements are right-padded with spaces;
-     * for string variables wider than 8 bytes,
-     * only the first 8 bytes of each missing value are specified, with the remainder implicitly all spaces.
+     * Each element is interpreted as a number for numeric variables (with HIGHEST and
+     * LOWEST indicated as described in the chapter introduction).
+     * For string variables of width less than 8 bytes, elements are right-padded with
+     * spaces; for string variables wider than 8 bytes, only the first 8 bytes of each
+     * missing value are specified, with the remainder implicitly all spaces.
      * For discrete missing values, each element represents one missing value.
      * When a range is present, the first element denotes the minimum value in the range,
      * and the second element denotes the maximum value in the range.
-     * When a range plus a value are present, the third element denotes the additional discrete missing value.
+     * When a range plus a value are present, the third element denotes the additional
+     * discrete missing value.
      *
      * @var array
      */

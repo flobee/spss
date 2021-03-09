@@ -18,10 +18,18 @@ class VariableDisplayParam extends Info
     {
         parent::read( $buffer );
         if ( 4 !== $this->dataSize ) {
-            throw new Exception( sprintf( 'Error reading record type 7 subtype 11: bad data element length [%s]. Expecting 4.', $this->dataSize ) );
+            $mesg = sprintf(
+                'Error reading record type 7 subtype 11: bad data element length [%s]. Expecting 4.',
+                $this->dataSize
+            );
+            throw new Exception( $mesg );
         }
         if ( 0 !== ( $this->dataCount % 3 ) ) {
-            throw new Exception( sprintf( 'Error reading record type 7 subtype 11: number of data elements [%s] is not a multiple of 3.', $this->dataCount ) );
+            $mesg = sprintf(
+                'Error reading record type 7 subtype 11: number of data elements [%s] is not a multiple of 3.',
+                $this->dataCount
+            );
+            throw new Exception( $mesg );
         }
         $itemCount = $this->dataCount / 3;
         for ( $i = 0; $i < $itemCount; $i++ ) {

@@ -20,7 +20,8 @@ class LongStringValueLabels
         $buffer = $buffer->allocate( $this->dataCount * $this->dataSize );
         while ( $varNameLength = $buffer->readInt() ) {
             $varName              = $buffer->readString( $varNameLength );
-            $varWidth             = $buffer->readInt(); // The width of the variable, in bytes, which will be between 9 and 32767
+            // The width of the variable, in bytes, which will be between 9 and 32767
+            $varWidth             = $buffer->readInt();
             $valuesCount          = $buffer->readInt();
             $this->data[$varName] = [
                 'width'  => $varWidth,

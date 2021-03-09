@@ -15,10 +15,12 @@ class Header
 
     /**
      * @var string Record type code,
-     *             either ‘$FL2’ for system files with uncompressed data or data compressed with simple bytecode compression,
+     *             either ‘$FL2’ for system files with uncompressed data or data compressed
+     *             with simple bytecode compression,
      *             or ‘$FL3’ for system files with ZLIB compressed data.
      *             This is truly a character field that uses the character encoding as other strings.
-     *             Thus, in a file with an ASCII-based character encoding this field contains 24 46 4c 32 or 24 46 4c 33,
+     *             Thus, in a file with an ASCII-based character encoding this field
+     *             contains 24 46 4c 32 or 24 46 4c 33,
      *             and in a file with an EBCDIC-based encoding this field contains 5b c6 d3 f2.
      *             (No EBCDIC-based ZLIB-compressed files have been observed.)
      */
@@ -33,13 +35,15 @@ class Header
     public $prodName = '@(#) SPSS DATA FILE';
 
     /**
-     * @var int normally set to 2, although a few system files have been spotted in the wild with a value of 3 here
+     * @var int normally set to 2, although a few system files have been spotted in the
+     *          wild with a value of 3 here
      */
     public $layoutCode = 2;
 
     /**
      * @var int Number of data elements per case.
-     *          This is the number of variables, except that long string variables add extra data elements (one for every 8 characters after the first 8).
+     *          This is the number of variables, except that long string variables add
+     *          extra data elements (one for every 8 characters after the first 8).
      *          However, string variables do not contribute to this value beyond the first 255 bytes.
      *          Further, system files written by some systems set this value to -1.
      *          In general, it is unsafe for systems reading system files to rely upon this value.
@@ -65,10 +69,12 @@ class Header
 
     /**
      * @var int Set to the number of cases in the file if it is known, or -1 otherwise.
-     *          In the general case it is not possible to determine the number of cases that will be output to a system file at the time
+     *          In the general case it is not possible to determine the number of cases
+     *          that will be output to a system file at the time
      *          that the header is written.
      *          The way that this is dealt with is by writing the entire system file,
-     *          including the header, then seeking back to the beginning of the file and writing just the ncases field.
+     *          including the header, then seeking back to the beginning of the file and
+     *          writing just the ncases field.
      *          For files in which this is not valid, the seek operation fails.
      *          In this case, ncases remains -1.
      */
@@ -83,7 +89,8 @@ class Header
 
     /**
      * @var string Date of creation of the system file, in ‘dd mmm yy’ format,
-     *             with the month as standard English abbreviations, using an initial capital letter and following with lowercase.
+     *             with the month as standard English abbreviations, using an initial
+     *             capital letter and following with lowercase.
      *             If the date is not available then this field is arbitrarily set to ‘01 Jan 70’.
      */
     public $creationDate = '01 Jan 70';
@@ -108,7 +115,8 @@ class Header
     {
         $this->recType = $buffer->readString( 4 );
         if ( self::NORMAL_REC_TYPE !== $this->recType && self::ZLIB_REC_TYPE !== $this->recType ) {
-            throw new Exception( 'Read header error: this is not a valid SPSS file. Does not start with $FL2 or $FL3.' );
+            $mesg = 'Read header error: this is not a valid SPSS file. Does not start with $FL2 or $FL3.';
+            throw new Exception( $mesg );
         }
         $this->prodName   = trim( $buffer->readString( 60 ) );
         $this->layoutCode = $buffer->readInt();
