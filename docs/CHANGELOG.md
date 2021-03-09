@@ -30,6 +30,8 @@ there is no reason to not switching to it.
 + Updates dependencies (composer, test tools and test runner configs)
 + Merges `origin`
 + Updates tests/ fixes implementation
++ Fixes MachineFloatingPoint for PHP 7.4, 8.0; Updates tests
++ Fixes CS Errors (Too long lines. 80 chars very good, > 120 becomes unreadable)
 
 
 

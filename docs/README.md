@@ -6,7 +6,6 @@ A PHP library for reading and writing SPSS / PSPP .sav data files.
 VERSION 4.* (see [upgrade section](#upgrade-to-version-3) for details)
 
 [![Stable Build Status](https://travis-ci.com/flobee/spss.svg?branch=stable)](https://travis-ci.com/flobee/spss/branches?stable)
-[![Unstable Build Status](https://travis-ci.com/flobee/spss.svg?branch=unstable)](https://travis-ci.com/flobee/spss/branches?unstable)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/flobee/spss.svg?style=flat-square)](https://packagist.org/packages/flobee/spss)
 [![Total Downloads](https://img.shields.io/packagist/dt/flobee/spss.svg?style=flat-square)](https://packagist.org/packages/flobee/spss)
 
@@ -56,6 +55,7 @@ to the require section of your `composer.json` file [see here](https://packagist
 or download from [here](https://github.com/flobee/spss/releases).
 
 
+
 ## Usage
 
 Reader example:
@@ -98,13 +98,15 @@ Writer example:
 
 
 
-## Demo/ playground
+## Demo/ Examples/ playground
 
     cd tests
 
     php readerDemo.php | less
-    # or to update tmp file to check for changes (using a diff):
+    # or to update tmp file to check for changes (using a git diff):
     php readerDemo.php > data/pspp.sav.printr.txt
+
+In folder [examples/](/examples/) you will find some more examples.
 
 
 
@@ -120,6 +122,10 @@ Writer example:
 Initialy or for upgrades to get development dependencies:
 
     composer install
+
+For more dev-tools you may install phpstan/phpstan `composer require -dev phpstan/phpstan`
+which shows a lot of stucture problems of the application and it should getting more
+attention (beginning with level=1).
 
 
 ### Update existing code
