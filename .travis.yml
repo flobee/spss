@@ -23,9 +23,6 @@ matrix:
     - php: 7.0
     - php: 7.1
     - php: 7.2
-# 4.0.0-beta* version:
-    - php: 8.0
-# general check for the future
     - php: nightly
 
 branches:
@@ -39,20 +36,21 @@ cache:
     - $HOME/.composer/cache/
 
 install:
-#  - travis_retry composer install --no-interaction --prefer-source
+# bind to each php version
   - travis_retry composer update --no-interaction --prefer-source
 
 before_script:
   - git submodule update --init --recursive
-#having coverage via travis-ci output
+# having coverage via travis-ci output
 #  - phpenv config-rm xdebug.ini || true
 
 script:
-# enable/ replace if all fits/ succeeds
-#  - ./phing all
+  - ./phing check
   - ./vendor/bin/phpunit -c tests/phpunit.xml --coverage-text
 #  - ./vendor/bin/phpstan analyse --level=1 src tests # PHP > 7.2
 #  - ./vendor/bin/phpcs -n --standard=misc/coding/Mumsys ./src ./tests/src
+# enable/ replace if all fits/ succeeds
+#  - ./phing all
 
 #after_success:
 #  - wget https://scrutinizer-ci.com/ocular.phar
