@@ -25,6 +25,7 @@ matrix:
     - php: 7.2
 # 4.0.0-beta* version:
     - php: 8.0
+# general check for the future
     - php: nightly
 
 branches:
@@ -50,7 +51,7 @@ script:
 # enable/ replace if all fits/ succeeds
 #  - ./phing all
   - ./vendor/bin/phpunit -c tests/phpunit.xml --coverage-text
-#  - if [ `php -v` gt "7.1" ]; then ./vendor/bin/phpstan analyse --level=1 src tests fi
+#  - ./vendor/bin/phpstan analyse --level=1 src tests # PHP > 7.2
 #  - ./vendor/bin/phpcs -n --standard=misc/coding/Mumsys ./src ./tests/src
 
 #after_success:

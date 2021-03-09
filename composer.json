@@ -68,6 +68,13 @@
         }
     },
 
+    "suggest-dev": {
+        "phpstan/phpstan": "Static code analysis to improve the app design and to avoid bugs (^0.12) PHP > 7.2",
+        "ergebnis/phpstan-rules": "Optional/ advanced setups for phpstan (*) PHP > 7.2",
+        "phpstan/phpstan-strict-rules": "Optional/ advanced setups for phpstan (*) PHP > 7.2",
+        "thecodingmachine/phpstan-strict-rules": "Optional/ advanced setups for phpstan (*) PHP > 7.2"
+    },
+
     "scripts": {
         "lint": "rector process src && php-cs-fixer fix -v",
         "test:lint": "vendor/bin/php-cs-fixer fix -v --dry-run && rector process src --dry-run",
