@@ -44,6 +44,7 @@ abstract class Record implements RecordInterface
         return new static( $data );
     }
 
+
     /**
      * @return array
      */

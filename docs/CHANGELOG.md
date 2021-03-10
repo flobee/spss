@@ -16,7 +16,7 @@
 
 ## VERSION 4.*
 
-Version 4.0.0-beta1
+Version 4.0.0-beta*
 
 tiamo/spss Version ~2.2.2
 

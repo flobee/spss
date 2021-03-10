@@ -5,9 +5,12 @@ A PHP library for reading and writing SPSS / PSPP .sav data files.
 
 VERSION 4.* (see [upgrade section](#upgrade-to-version-3) for details)
 
+[![Latest Stable Version](https://poser.pugx.org/flobee/spss/v)](//packagist.org/packages/flobee/spss)
 [![Stable Build Status](https://travis-ci.com/flobee/spss.svg?branch=stable)](https://travis-ci.com/flobee/spss/branches?stable)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/flobee/spss.svg?style=flat-square)](https://packagist.org/packages/flobee/spss)
 [![Total Downloads](https://img.shields.io/packagist/dt/flobee/spss.svg?style=flat-square)](https://packagist.org/packages/flobee/spss)
+[![Latest Unstable Version](https://poser.pugx.org/flobee/spss/v/unstable)](//packagist.org/packages/flobee/spss)
+[![Unstable Build Status](https://travis-ci.com/flobee/spss.svg?branch=unstable)](https://travis-ci.com/flobee/spss/branches?unstable)
 
 
 Fork of tiamo/spss. Mostly same code base. Introdusing a more complete test enviroment
@@ -21,7 +24,6 @@ which now exists over there. So, one day i switch back to it.
 + [Requirements](#requirements)
 + [Installation](#installation)
 + [Usage](#usage)
-+ [Demo/ playground](#demo-playground)
 + [Tests / Developers](#tests--developers)
   + [Install using shell](#install-using-shell)
   + [Update existing code](#update-existing-code)
@@ -58,13 +60,15 @@ or download from [here](https://github.com/flobee/spss/releases).
 
 ## Usage
 
+In folder [examples/](/examples/) you will find some more examples.
+
 Reader example:
 
-    $reader = \SPSS\Sav\Reader::fromFile('path/to/file.sav');
+    $reader = \SPSS\Sav\Reader::fromFile('path/to/file.sav')->read();
 
 or
 
-    $reader = \SPSS\Sav\Reader::fromString(file_get_contents('path/to/file.sav'));
+    $reader = \SPSS\Sav\Reader::fromString(file_get_contents('path/to/file.sav'))->read();
 
 
 Writer example:
@@ -95,18 +99,7 @@ Writer example:
             ...
         ]
     ]);
-
-
-
-## Demo/ Examples/ playground
-
-    cd tests
-
-    php readerDemo.php | less
-    # or to update tmp file to check for changes (using a git diff):
-    php readerDemo.php > data/pspp.sav.printr.txt
-
-In folder [examples/](/examples/) you will find some more examples.
+    ...
 
 
 
@@ -167,7 +160,6 @@ attention (beginning with level=1).
     php readerDemo.php > data/pspp.sav.printr.txt
 
 
-
 ### Upgrade to version 3.*
 
 Update your composer.json
@@ -201,8 +193,4 @@ Please have a look in [docs/CHANGELOG.md](docs/CHANGELOG.md)
 
 ## License
 
-Copyright (c) 2017 Vladyslav Korniienko
-
-[License text](LICENSE.md)
-
-Licensed under the [MIT license](http://opensource.org/licenses/MIT)
+Please have a look in [License text](LICENSE.md)
