@@ -41,7 +41,7 @@
         "phpunit/phpunit": "^8",
         "phing/phing": "^2",
         "squizlabs/php_codesniffer": "^3",
-        "composer/composer": "^1.9"
+        "composer/composer": "^1"
     },
     "autoload": {
         "psr-4": {
