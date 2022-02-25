@@ -58,7 +58,7 @@ class Variable
 
     /**
      * Print format for this variable.
-     * [decimals, width, format, 0].
+     * [0, format, width, decimals].
      *
      * @var array
      */
@@ -66,7 +66,7 @@ class Variable
 
     /**
      * Write format for this variable.
-     * [decimals, width, format, 0].
+     * [0, format, width, decimals].
      *
      * @var array
      */
