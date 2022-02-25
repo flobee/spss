@@ -47,6 +47,11 @@ class Reader
     public $lastCase = -1;
 
     /**
+     * @var int
+     */
+    public $dataPosition = -1;
+
+    /**
      * @var record
      */
     public $record;
@@ -178,6 +183,7 @@ class Reader
                 $segmentsCount--;
             }
         }
+        $this->dataPosition = $this->_buffer->position();
 
         return $this;
     }
@@ -191,6 +197,21 @@ class Reader
         $this->data = Record\Data::fill( $this->_buffer )->toArray();
 
         return $this;
+    }
+
+    /**
+     * @return booleam
+     */
+    public function rewindCaseIterator()
+    {
+        if ( $this->dataPosition !== -1 ) {
+            $this->lastCase = -1;
+            $this->record = null;
+            if ( $this->_buffer->seek( $this->dataPosition ) === 0 ) {
+                return true;
+            }
+        }
+        return false;
     }
 
 
