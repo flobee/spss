@@ -198,16 +198,16 @@ class Reader
 
         return $this;
     }
-    
+
     /**
      * @return booleam
      */
     public function rewindCaseIterator()
     {
-        if ($this->dataPosition !== -1) {
+        if ( $this->dataPosition !== -1 ) {
             $this->lastCase = -1;
             $this->record = null;
-            if ($this->_buffer->seek($this->dataPosition) === 0) {
+            if ( $this->_buffer->seek( $this->dataPosition ) === 0 ) {
                 return true;
             }
         }

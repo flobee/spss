@@ -387,8 +387,8 @@ class Data
 
         for ( $index = 0; $index < $varCount; $index++ ) {
             $var = $variables[$index];
-            $isNumeric = 0 === $var->width && \SPSS\Sav\Variable::isNumberFormat($var->write[1]);
-            $width = (isset($var->write[2]) && ($var->write[2] !== 0)) ? $var->write[2] : $var->width;
+            $isNumeric = 0 === $var->width && \SPSS\Sav\Variable::isNumberFormat( $var->write[1] );
+            $width = ( isset( $var->write[2] ) && ( $var->write[2] !== 0 ) ) ? $var->write[2] : $var->width;
 
             if ( $isNumeric ) {
                 if ( !$compressed ) {
@@ -477,16 +477,16 @@ class Data
             $value = $row[$index];
 
             // $isNumeric = $var->width == 0;
-            $isNumeric = 0 === $var->width && \SPSS\Sav\Variable::isNumberFormat($var->write[1]);
-            $width = (isset($var->write[2]) && ($var->write[2] !== 0)) ? $var->write[2] : $var->width;
+            $isNumeric = 0 === $var->width && \SPSS\Sav\Variable::isNumberFormat( $var->write[1] );
+            $width = ( isset( $var->write[2] ) && ( $var->write[2] !== 0 ) ) ? $var->write[2] : $var->width;
 
-            if ($isNumeric) {
-                if (!$compressed) {
-                    $buffer->writeDouble($value);
-                } elseif ($value === $sysmis || '' === $value) {
-                    $this->writeOpcode($buffer, self::OPCODE_SYSMISS);
-                } elseif ($value >= 1 - $bias && $value <= 251 - $bias && $value === (int) $value) {
-                    $this->writeOpcode($buffer, $value + $bias);
+            if ( $isNumeric ) {
+                if ( !$compressed ) {
+                    $buffer->writeDouble( $value );
+                } elseif ( $value === $sysmis || '' === $value ) {
+                    $this->writeOpcode( $buffer, self::OPCODE_SYSMISS );
+                } elseif ( $value >= 1 - $bias && $value <= 251 - $bias && $value === (int) $value ) {
+                    $this->writeOpcode( $buffer, $value + $bias );
                 } else {
                     $this->writeOpcode( $buffer, self::OPCODE_RAW_DATA );
                     $this->dataBuffer->writeDouble( $value );

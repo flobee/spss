@@ -104,8 +104,8 @@ class ValueLabel
 
     public function write( Buffer $buffer )
     {
-        $var = (count($this->variables) > 0) ? $this->variables[count($this->variables) - 1] : null;
-        $convertToDouble = (isset($var) && ($var->width > 0));
+        $var = ( count( $this->variables ) > 0 ) ? $this->variables[count( $this->variables ) - 1] : null;
+        $convertToDouble = ( isset( $var ) && ( $var->width > 0 ) );
 
         // Value label record.
         $buffer->writeInt( self::TYPE );
