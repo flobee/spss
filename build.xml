@@ -4,7 +4,8 @@
     <property name="bindir" value="${project.basedir}/vendor/bin/" override="false" />
 
     <target name="options" description="Options for phing">
-        <echo msg="run ./phing --help or ./phing -l ; Option for phing required: test | check | coverage | all" />
+        <echo msg="Run: #>'./phing -l' to show possible actions" />
+        <echo msg="Run: #>'./phing --help' to show general options" />
     </target>
 
     <target name="check" description="Executes the coding style sniffer">
@@ -36,6 +37,8 @@
 
     <!--
     update the documentations "table of contents" [toc] in docs/
+    **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+    # npm install doctoc
     -->
     <target name="updatedoctocs" description="Updates **table of contents** of docs/*.md files">
         <property name="list" value="README.md;docs/CHANGELOG.md;docs/BENCHMARKS.md" />

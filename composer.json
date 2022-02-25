@@ -50,8 +50,7 @@
 
         "composer/composer": "^2",
         "phing/phing": "*",
-        "squizlabs/php_codesniffer": "*",
-        "phpstan/phpstan": "^1.4"
+        "squizlabs/php_codesniffer": "*"
     },
 
     "autoload": {

@@ -6,6 +6,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
++ [VERSION 5.*](#version-5)
 + [VERSION 4.*](#version-4)
 + [VERSION 3.*](#version-3)
 + [VERSION 2.0.1](#version-201)
@@ -13,16 +14,28 @@
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 
+## VERSION 5.*
+
+Intro: Version 5 for php8.1
+
 
 ## VERSION 4.*
 
-Version 4.0.0-beta*
+Version 4.1.0
+
++ Merges `master` from tiamo (~18 issues, changes) (still 2.2.2?)
++ Updates/Fixes CS to fit the rules here
++ Updates composer packages
++ Updates docs/ dev tools (build.xml, .travis.yml)
+
+
+Version 4.0.0-beta* / 4.0.0
 
 tiamo/spss Version ~2.2.2
 
-PHP 8+ only because of several dependency problems to be more up to date and goin to be
-more strict in the code base. PHP 8 offers so many good improvements and bug fixes that
-there is no reason to not switching to it.
+PHP 8+ only because of several dependency problems to be more up to date and
+goin to be more strict in the code base. PHP 8 offers so many good improvements
+and bug fixes that there is no reason to not switching to it.
 
 
 2021-03

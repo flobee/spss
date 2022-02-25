@@ -21,6 +21,7 @@ which now exists over there. So, one day i switch back to it.
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
++ [Current state](#current-state)
 + [Requirements](#requirements)
 + [Installation](#installation)
 + [Usage](#usage)
@@ -34,6 +35,13 @@ which now exists over there. So, one day i switch back to it.
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+
+
+## Current state
+
+This libray is nearly back in sync with tiamo/spss. Except the developer tools 
+and some bugfixes for php8+ incl. hints for improved dev tools to find 
+implementation mistakes. Check also the CHANGELOG.md for details.
 
 
 ## Requirements
@@ -116,9 +124,11 @@ Initialy or for upgrades to get development dependencies:
 
     composer install
 
-For more dev-tools you may install phpstan/phpstan `composer require -dev phpstan/phpstan`
-which shows a lot of stucture problems of the application and it should getting more
-attention (beginning with level=1).
+For a more 'dev-tool' you may install phpstan/phpstan 
+`composer require -dev phpstan/phpstan` which shows a lot of stucture problems
+of the application and it should getting more attention (beginning with 
+level=1). The shame: Not compatible for all php versions. So use it ~php >= 7.0
+and you can use it using the following command: `./phing sca`
 
 
 ### Update existing code
@@ -143,7 +153,7 @@ attention (beginning with level=1).
     # executes the tests and create the code coverage
     ./phing coverage
 
-    # run all tasks (CS checks, coverage, tests, sca...)
+    # run all tasks (CS checks, sca (static code analysis), test, ...)
     ./phing all
 
     ...
@@ -158,31 +168,6 @@ attention (beginning with level=1).
     php readerDemo.php | less
     # or to update tmp file to check for changes:
     php readerDemo.php > data/pspp.sav.printr.txt
-
-
-### Upgrade to version 3.*
-
-Update your composer.json
-
-    {
-        ...
-        "require": {
-            "flobee/spss": "3.*",
-        },
-        ...
-    }
-
-Next:
-
-    composer update flobee/spss
-
-Dependency Errors?
-
-If you get dependency errors, you may upgrade other spss dependencies too.
-If so try the following:
-
-    composer update flobee/spss --with-dependencies
-
 
 
 ## Changelog
