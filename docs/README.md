@@ -3,7 +3,6 @@
 
 A PHP library for reading and writing SPSS / PSPP .sav data files.
 
-VERSION 4.* (see [upgrade section](#upgrade-to-version-3) for details)
 
 [![Latest Stable Version](https://poser.pugx.org/flobee/spss/v)](//packagist.org/packages/flobee/spss)
 [![Stable Build Status](https://travis-ci.com/flobee/spss.svg?branch=stable)](https://travis-ci.com/flobee/spss/branches?stable)
@@ -29,7 +28,6 @@ which now exists over there. So, one day i switch back to it.
   + [Install using shell](#install-using-shell)
   + [Update existing code](#update-existing-code)
   + [Running tests](#running-tests)
-  + [Upgrade to version 3.*](#upgrade-to-version-3)
 + [Changelog](#changelog)
 + [License](#license)
 
