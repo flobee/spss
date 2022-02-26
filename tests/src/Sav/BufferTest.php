@@ -24,7 +24,7 @@ class BufferTest
 
     /**
      * @dataProvider doubleProvider
-     * @param $value
+     * @param float|int $value
      */
     public function testDouble( $value )
     {
@@ -49,7 +49,7 @@ class BufferTest
 
     /**
      * @dataProvider intProvider
-     * @param $value
+     * @param float|int $value
      */
     public function testInt( $value )
     {

@@ -3,13 +3,16 @@
 namespace SPSS\Sav;
 
 use SPSS\Buffer;
-use SPSS\Exception;
+use SPSS\Sav\Record\Header;
+use SPSS\Sav\Record\Info;
+use SPSS\Sav\Record\ValueLabel;
+use SPSS\Utils;
 
 
 class Reader
 {
     /**
-     * @var Record\Header
+     * @var Header
      */
     public $header;
 
@@ -19,7 +22,7 @@ class Reader
     public $variables = [];
 
     /**
-     * @var Record\ValueLabel[]
+     * @var ValueLabel[]
      */
     public $valueLabels = [];
 
@@ -29,137 +32,201 @@ class Reader
     public $documents = [];
 
     /**
-     * @var Record\Info[]
+     * @var Info[]
      */
     public $info = [];
 
     /**
-     * @var array Data matrix
+     * @var array
      */
     public $data = [];
 
+    /**
+     * @var int
+     */
+    public $lastCase = -1;
 
     /**
-     * Initialize the reader.
+     * @var record
+     */
+    public $record;
+
+    /**
+     * @var Buffer
+     */
+    protected $_buffer;
+
+    /**
+     * Reader constructor.
      *
-     * @param Buffer $buffer
-     * @param bool $parseData Flag to incude parsing the content/values of an spss/pspp
-     * file or not: Default: true
-     *
-     * @throws Exception
+     * @param  Buffer  $buffer
+     * @param  bool  $parseData Not in yet. See TODO.md
      */
     private function __construct( Buffer $buffer, $parseData = true )
     {
-        $buffer->context = $this;
-        $this->header = Record\Header::fill( $buffer );
-
-        do {
-            $recType = $buffer->readInt();
-            switch ( $recType )
-            {
-                case Record\Variable::TYPE:
-                    $this->variables[] = Record\Variable::fill( $buffer );
-                    break;
-
-                case Record\ValueLabel::TYPE:
-                    $this->valueLabels[] = Record\ValueLabel::fill( $buffer );
-                    break;
-
-                case Record\Document::TYPE:
-                    $this->documents = Record\Document::fill( $buffer )->lines;
-                    break;
-
-                case Record\Info::TYPE:
-                    $subtype = $buffer->readInt();
-                    switch ( $subtype )
-                    {
-                        case Record\Info\MachineInteger::SUBTYPE:
-                            $this->info[$subtype] = Record\Info\MachineInteger::fill( $buffer );
-                            break;
-
-                        case Record\Info\MachineFloatingPoint::SUBTYPE:
-                            $this->info[$subtype] = Record\Info\MachineFloatingPoint::fill( $buffer );
-                            break;
-
-                        case Record\Info\VariableDisplayParam::SUBTYPE:
-                            $this->info[$subtype] = Record\Info\VariableDisplayParam::fill( $buffer );
-                            break;
-
-                        case Record\Info\LongVariableNames::SUBTYPE:
-                            $this->info[$subtype] = Record\Info\LongVariableNames::fill( $buffer );
-                            break;
-
-                        case Record\Info\VeryLongString::SUBTYPE:
-                            $this->info[$subtype] = Record\Info\VeryLongString::fill( $buffer );
-                            break;
-
-                        case Record\Info\ExtendedNumberOfCases::SUBTYPE:
-                            $this->info[$subtype] = Record\Info\ExtendedNumberOfCases::fill( $buffer );
-                            break;
-
-                        case Record\Info\DataFileAttributes::SUBTYPE:
-                            $this->info[$subtype] = Record\Info\DataFileAttributes::fill( $buffer );
-                            break;
-
-                        case Record\Info\VariableAttributes::SUBTYPE:
-                            $this->info[$subtype] = Record\Info\VariableAttributes::fill( $buffer );
-                            break;
-
-                        case Record\Info\CharacterEncoding::SUBTYPE:
-                            $this->info[$subtype] = Record\Info\CharacterEncoding::fill( $buffer );
-                            break;
-
-                        case Record\Info\LongStringValueLabels::SUBTYPE:
-                            $this->info[$subtype] = Record\Info\LongStringValueLabels::fill( $buffer );
-                            break;
-
-                        case Record\Info\LongStringMissingValues::SUBTYPE:
-                            $this->info[$subtype] = Record\Info\LongStringMissingValues::fill( $buffer );
-                            break;
-
-                        default:
-                            $this->info[$subtype] = Record\Info\Unknown::fill( $buffer );
-                    }
-                    break;
-            }
-
-        } while ( $recType != Record\Data::TYPE );
-
-        if ( $parseData === true ) {
-            $this->data = Record\Data::fill( $buffer )->matrix;
-        } else {
-            $this->data = array();
-        }
+        $parseData; // Optional flag to not read entire data, just the structure (if false)
+        $this->_buffer          = $buffer;
+        $this->_buffer->context = $this;
     }
 
-
     /**
-     * Reads sav file from file.
-     *
-     * @param string $file Location to existing file
-     * @param bool $parseData Flag to incude parsing the content/values of an spss/pspp
-     * file or not: Default: true
-     *
-     * @return Reader Reader interface
-     */
-    public static function fromFile( $file, $parseData = true )
-    {
-        return new self( Buffer::factory( fopen( $file, 'r' ) ), $parseData );
-    }
-
-
-    /**
-     * Returns the reader from given SPSS file string.
-     *
-     * @param string $str Contents of the SPSS file
-     * @param bool $parseData Flag to incude parsing the content/values of an spss/pspp
-     * file or not: Default: true
+     * @param string $file
      *
      * @return Reader
      */
-    public static function fromString( $str, $parseData = true )
+    public static function fromFile( $file )
     {
-        return new self( Buffer::factory( $str, $parseData ) );
+        return new self( Buffer::factory( fopen( $file, 'rb' ) ) );
     }
 
+    /**
+     * @param string $str
+     *
+     * @return Reader
+     */
+    public static function fromString( $str )
+    {
+        return new self( Buffer::factory( $str ) );
+    }
+
+    /**
+     * @return self
+     */
+    public function readMetaData()
+    {
+        return $this->readHeader()->readBody();
+    }
+
+    /**
+     * @return self
+     */
+    public function read()
+    {
+        return $this->readHeader()->readBody()->readData();
+    }
+
+    /**
+     * @return self
+     */
+    public function readHeader()
+    {
+        $this->header = Record\Header::fill( $this->_buffer );
+
+        return $this;
+    }
+
+    /**
+     * @return self
+     */
+    public function readBody()
+    {
+        if ( !$this->header ) {
+            $this->readHeader();
+        }
+
+        // TODO: refactory
+        $infoCollection = new Record\InfoCollection();
+        $tempVars       = [];
+        $posVar         = 0;
+
+        do {
+            $recType = $this->_buffer->readInt();
+            switch ( $recType ) {
+                case Record\Variable::TYPE:
+                    $variable               = Record\Variable::fill( $this->_buffer );
+                    $variable->realPosition = $posVar;
+                    $tempVars[]             = $variable;
+                    $posVar++;
+                    break;
+
+                case Record\ValueLabel::TYPE:
+                    $this->valueLabels[] = Record\ValueLabel::fill(
+                        $this->_buffer, [
+                        // TODO: refactory
+                        'variables' => $tempVars,
+                        ]
+                    );
+                    break;
+
+                case Record\Info::TYPE:
+                    $this->info = $infoCollection->fill( $this->_buffer );
+                    break;
+                case Record\Document::TYPE:
+                    $this->documents = Record\Document::fill( $this->_buffer )->toArray();
+                    break;
+            }
+        } while ( Record\Data::TYPE !== $recType );
+
+        // Excluding the records that are creating only as a consequence of very long string records
+        // from the variables computation.
+        $veryLongStrings = [];
+        if ( isset( $this->info[Record\Info\VeryLongString::SUBTYPE] ) ) {
+            $veryLongStrings = $this->info[Record\Info\VeryLongString::SUBTYPE]->toArray();
+        }
+
+        $segmentsCount = 0;
+        foreach ( $tempVars as $index => $var ) {
+            // Skip blank records from the variables computation
+            if ( -1 !== $var->width ) {
+                if ( $segmentsCount <= 0 ) {
+                    $segmentsCount = Utils::widthToSegments(
+                        isset( $veryLongStrings[$var->name] ) ?
+                            $veryLongStrings[$var->name] : $var->width
+                    );
+                    $this->variables[] = $var;
+                }
+                $segmentsCount--;
+            }
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * @return self
+     */
+    public function readData()
+    {
+        $this->data = Record\Data::fill( $this->_buffer )->toArray();
+
+        return $this;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function readCase()
+    {
+        if ( !isset( $this->record ) ) {
+            $this->record = Record\Data::create();
+        }
+
+        $this->lastCase++;
+
+        if ( ( $this->lastCase >= 0 ) && ( $this->lastCase < $this->_buffer->context->header->casesCount ) ) {
+            $this->record->readCase( $this->_buffer, $this->lastCase );
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCaseNumber()
+    {
+        return $this->lastCase;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCase()
+    {
+        return $this->record->getRow();
+    }
 }

@@ -1,0 +1,543 @@
+SPSS\Sav\Reader Object
+(
+    [header] => SPSS\Sav\Record\Header Object
+        (
+            [recType] => $FL2
+            [prodName] => @(#) SPSS DATA FILE GNU pspp 0.10.2 - x86_64-pc-linux-gnu
+            [layoutCode] => 2
+            [nominalCaseSize] => 3
+            [compression] => 1
+            [weightIndex] => 2
+            [casesCount] => 3
+            [bias] => 100
+            [creationDate] => 17 Nov 17
+            [creationTime] => 23:04:46
+            [fileLabel] => 
+        )
+
+    [variables] => Array
+        (
+            [0] => SPSS\Sav\Record\Variable Object
+                (
+                    [width] => 0
+                    [realPosition] => 0
+                    [missingValuesFormat] => -3
+                    [print] => Array
+                        (
+                            [0] => 0
+                            [1] => 5
+                            [2] => 3
+                            [3] => 0
+                        )
+
+                    [write] => Array
+                        (
+                            [0] => 0
+                            [1] => 5
+                            [2] => 3
+                            [3] => 2
+                        )
+
+                    [name] => V1INT
+                    [label] => v1
+                    [missingValues] => Array
+                        (
+                            [0] => 1
+                            [1] => 2
+                            [2] => 1
+                        )
+
+                )
+
+            [1] => SPSS\Sav\Record\Variable Object
+                (
+                    [width] => 0
+                    [realPosition] => 1
+                    [missingValuesFormat] => -3
+                    [print] => Array
+                        (
+                            [0] => 0
+                            [1] => 5
+                            [2] => 3
+                            [3] => 2
+                        )
+
+                    [write] => Array
+                        (
+                            [0] => 0
+                            [1] => 5
+                            [2] => 1
+                            [3] => 0
+                        )
+
+                    [name] => V2FLOAT
+                    [label] => v2
+                    [missingValues] => Array
+                        (
+                            [0] => 0
+                            [1] => 2
+                            [2] => 1
+                        )
+
+                )
+
+            [2] => SPSS\Sav\Record\Variable Object
+                (
+                    [width] => 8
+                    [realPosition] => 2
+                    [missingValuesFormat] => 3
+                    [print] => Array
+                        (
+                            [0] => 0
+                            [1] => 1
+                            [2] => 8
+                            [3] => 0
+                        )
+
+                    [write] => Array
+                        (
+                            [0] => 0
+                            [1] => 1
+                            [2] => 8
+                            [3] => 0
+                        )
+
+                    [name] => V3STRING
+                    [label] => v3
+                    [missingValues] => Array
+                        (
+                            [0] => 6.0134700226493E-154
+                            [1] => 6.0134700227362E-154
+                            [2] => 6.013470022823E-154
+                        )
+
+                )
+
+        )
+
+    [valueLabels] => Array
+        (
+            [0] => SPSS\Sav\Record\ValueLabel Object
+                (
+                    [labels] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [value] => 1
+                                    [label] => 1
+                                )
+
+                            [1] => Array
+                                (
+                                    [value] => 2
+                                    [label] => 2
+                                )
+
+                        )
+
+                    [indexes] => Array
+                        (
+                            [0] => 0
+                            [1] => 1
+                        )
+
+                    [variables:protected] => Array
+                        (
+                            [0] => SPSS\Sav\Record\Variable Object
+                                (
+                                    [width] => 0
+                                    [realPosition] => 0
+                                    [missingValuesFormat] => -3
+                                    [print] => Array
+                                        (
+                                            [0] => 0
+                                            [1] => 5
+                                            [2] => 3
+                                            [3] => 0
+                                        )
+
+                                    [write] => Array
+                                        (
+                                            [0] => 0
+                                            [1] => 5
+                                            [2] => 3
+                                            [3] => 2
+                                        )
+
+                                    [name] => V1INT
+                                    [label] => v1
+                                    [missingValues] => Array
+                                        (
+                                            [0] => 1
+                                            [1] => 2
+                                            [2] => 1
+                                        )
+
+                                )
+
+                            [1] => SPSS\Sav\Record\Variable Object
+                                (
+                                    [width] => 0
+                                    [realPosition] => 1
+                                    [missingValuesFormat] => -3
+                                    [print] => Array
+                                        (
+                                            [0] => 0
+                                            [1] => 5
+                                            [2] => 3
+                                            [3] => 2
+                                        )
+
+                                    [write] => Array
+                                        (
+                                            [0] => 0
+                                            [1] => 5
+                                            [2] => 1
+                                            [3] => 0
+                                        )
+
+                                    [name] => V2FLOAT
+                                    [label] => v2
+                                    [missingValues] => Array
+                                        (
+                                            [0] => 0
+                                            [1] => 2
+                                            [2] => 1
+                                        )
+
+                                )
+
+                            [2] => SPSS\Sav\Record\Variable Object
+                                (
+                                    [width] => 8
+                                    [realPosition] => 2
+                                    [missingValuesFormat] => 3
+                                    [print] => Array
+                                        (
+                                            [0] => 0
+                                            [1] => 1
+                                            [2] => 8
+                                            [3] => 0
+                                        )
+
+                                    [write] => Array
+                                        (
+                                            [0] => 0
+                                            [1] => 1
+                                            [2] => 8
+                                            [3] => 0
+                                        )
+
+                                    [name] => V3STRING
+                                    [label] => v3
+                                    [missingValues] => Array
+                                        (
+                                            [0] => 6.0134700226493E-154
+                                            [1] => 6.0134700227362E-154
+                                            [2] => 6.013470022823E-154
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+            [1] => SPSS\Sav\Record\ValueLabel Object
+                (
+                    [labels] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [value] => a
+                                    [label] => a
+                                )
+
+                            [1] => Array
+                                (
+                                    [value] => b
+                                    [label] => b
+                                )
+
+                            [2] => Array
+                                (
+                                    [value] => c
+                                    [label] => c
+                                )
+
+                        )
+
+                    [indexes] => Array
+                        (
+                            [0] => 2
+                        )
+
+                    [variables:protected] => Array
+                        (
+                            [0] => SPSS\Sav\Record\Variable Object
+                                (
+                                    [width] => 0
+                                    [realPosition] => 0
+                                    [missingValuesFormat] => -3
+                                    [print] => Array
+                                        (
+                                            [0] => 0
+                                            [1] => 5
+                                            [2] => 3
+                                            [3] => 0
+                                        )
+
+                                    [write] => Array
+                                        (
+                                            [0] => 0
+                                            [1] => 5
+                                            [2] => 3
+                                            [3] => 2
+                                        )
+
+                                    [name] => V1INT
+                                    [label] => v1
+                                    [missingValues] => Array
+                                        (
+                                            [0] => 1
+                                            [1] => 2
+                                            [2] => 1
+                                        )
+
+                                )
+
+                            [1] => SPSS\Sav\Record\Variable Object
+                                (
+                                    [width] => 0
+                                    [realPosition] => 1
+                                    [missingValuesFormat] => -3
+                                    [print] => Array
+                                        (
+                                            [0] => 0
+                                            [1] => 5
+                                            [2] => 3
+                                            [3] => 2
+                                        )
+
+                                    [write] => Array
+                                        (
+                                            [0] => 0
+                                            [1] => 5
+                                            [2] => 1
+                                            [3] => 0
+                                        )
+
+                                    [name] => V2FLOAT
+                                    [label] => v2
+                                    [missingValues] => Array
+                                        (
+                                            [0] => 0
+                                            [1] => 2
+                                            [2] => 1
+                                        )
+
+                                )
+
+                            [2] => SPSS\Sav\Record\Variable Object
+                                (
+                                    [width] => 8
+                                    [realPosition] => 2
+                                    [missingValuesFormat] => 3
+                                    [print] => Array
+                                        (
+                                            [0] => 0
+                                            [1] => 1
+                                            [2] => 8
+                                            [3] => 0
+                                        )
+
+                                    [write] => Array
+                                        (
+                                            [0] => 0
+                                            [1] => 1
+                                            [2] => 8
+                                            [3] => 0
+                                        )
+
+                                    [name] => V3STRING
+                                    [label] => v3
+                                    [missingValues] => Array
+                                        (
+                                            [0] => 6.0134700226493E-154
+                                            [1] => 6.0134700227362E-154
+                                            [2] => 6.013470022823E-154
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+        )
+
+    [documents] => Array
+        (
+            [0] => comment to file
+            [1] => Added by pspp:  (17 Nov 2017 eingegeben)
+            [2] => 
+            [3] => (17 Nov 2017 eingegeben)
+        )
+
+    [info] => Array
+        (
+            [3] => SPSS\Sav\Record\Info\MachineInteger Object
+                (
+                    [version] => Array
+                        (
+                            [0] => 0
+                            [1] => 10
+                            [2] => 2
+                        )
+
+                    [machineCode] => -1
+                    [floatingPointRep] => 1
+                    [compressionCode] => 1
+                    [endianness] => 2
+                    [characterCode] => 65001
+                    [dataSize:protected] => 4
+                    [dataCount:protected] => 8
+                    [data:protected] => Array
+                        (
+                        )
+
+                )
+
+            [4] => SPSS\Sav\Record\Info\MachineFloatingPoint Object
+                (
+                    [sysmis] => -1.7976931348623E+308
+                    [highest] => 1.7976931348623E+308
+                    [lowest] => -1.7976931348623E+308
+                    [dataSize:protected] => 8
+                    [dataCount:protected] => 3
+                    [data:protected] => Array
+                        (
+                        )
+
+                )
+
+            [11] => SPSS\Sav\Record\Info\VariableDisplayParam Object
+                (
+                    [data] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [0] => 1
+                                    [1] => 8
+                                    [2] => 1
+                                )
+
+                            [1] => Array
+                                (
+                                    [0] => 1
+                                    [1] => 8
+                                    [2] => 1
+                                )
+
+                            [2] => Array
+                                (
+                                    [0] => 1
+                                    [1] => 8
+                                    [2] => 1
+                                )
+
+                        )
+
+                    [dataSize:protected] => 4
+                    [dataCount:protected] => 9
+                )
+
+            [13] => SPSS\Sav\Record\Info\LongVariableNames Object
+                (
+                    [data] => Array
+                        (
+                            [V1INT] => v1int
+                            [V2FLOAT] => v2float
+                            [V3STRING] => v3string
+                        )
+
+                    [dataSize:protected] => 1
+                    [dataCount:protected] => 45
+                )
+
+            [18] => SPSS\Sav\Record\Info\VariableAttributes Object
+                (
+                    [data] => Array
+                        (
+                            [v1int] => Array
+                                (
+                                    [$@Role] => 0
+                                )
+
+                            [v2float] => Array
+                                (
+                                    [$@Role] => 0
+                                )
+
+                            [v3string] => Array
+                                (
+                                    [$@Role] => 0
+                                )
+
+                        )
+
+                    [dataSize:protected] => 1
+                    [dataCount:protected] => 61
+                )
+
+            [20] => SPSS\Sav\Record\Info\CharacterEncoding Object
+                (
+                    [value] => UTF-8
+                    [data:protected] => Array
+                        (
+                        )
+
+                    [dataSize:protected] => 1
+                    [dataCount:protected] => 5
+                )
+
+        )
+
+    [data] => Array
+        (
+            [0] => Array
+                (
+                    [0] => 1
+                    [1] => 1.23
+                    [2] => ab
+                )
+
+            [1] => Array
+                (
+                    [0] => 2
+                    [1] => 2.34
+                    [2] => bc
+                )
+
+            [2] => Array
+                (
+                    [0] => 3
+                    [1] => 3.45
+                    [2] => cd
+                )
+
+        )
+
+    [lastCase] => -1
+    [record] => 
+    [_buffer:protected] => SPSS\Buffer Object
+        (
+            [context] => SPSS\Sav\Reader Object
+ *RECURSION*
+            [isBigEndian] => 
+            [charset] => 
+            [_stream:SPSS\Buffer:private] => Resource id #30
+            [_position:SPSS\Buffer:private] => 1191
+        )
+
+)

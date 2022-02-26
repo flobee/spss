@@ -1,0 +1,1 @@
+../misc/testing/runStaticCodeAnalysis.sh

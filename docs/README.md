@@ -1,18 +1,50 @@
 # SPSS / PSPP
 
+
 A PHP library for reading and writing SPSS / PSPP .sav data files.
 
-VERSION 3.* (see [upgrade section](#upgrade-to-version-3) for details)
+VERSION 4.* (see [upgrade section](#upgrade-to-version-3) for details)
 
-[![Stable Build Status](https://travis-ci.org/flobee/spss.svg?branch=stable)](https://travis-ci.org/flobee/spss/branches?stable)
-[![Unstable Build Status](https://travis-ci.org/flobee/spss.svg?branch=unstable)](https://travis-ci.org/flobee/spss/branches?unstable)
+[![Latest Stable Version](https://poser.pugx.org/flobee/spss/v)](//packagist.org/packages/flobee/spss)
+[![Stable Build Status](https://travis-ci.com/flobee/spss.svg?branch=stable)](https://travis-ci.com/flobee/spss/branches?stable)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/flobee/spss.svg?style=flat-square)](https://packagist.org/packages/flobee/spss)
+[![Total Downloads](https://img.shields.io/packagist/dt/flobee/spss.svg?style=flat-square)](https://packagist.org/packages/flobee/spss)
+[![Latest Unstable Version](https://poser.pugx.org/flobee/spss/v/unstable)](//packagist.org/packages/flobee/spss)
+[![Unstable Build Status](https://travis-ci.com/flobee/spss.svg?branch=unstable)](https://travis-ci.com/flobee/spss/branches?unstable)
 
-<!-- doctoc hint -->
+
+Fork of tiamo/spss. Mostly same code base. Introdusing a more complete test enviroment
+which now exists over there. So, one day i switch back to it.
+
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of contents**
+
++ [Requirements](#requirements)
++ [Installation](#installation)
++ [Usage](#usage)
++ [Demo/ Examples/ playground](#demo-examples-playground)
++ [Tests / Developers](#tests--developers)
+  + [Install using shell](#install-using-shell)
+  + [Update existing code](#update-existing-code)
+  + [Running tests](#running-tests)
+  + [Upgrade to version 3.*](#upgrade-to-version-3)
++ [Changelog](#changelog)
++ [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 
 
 ## Requirements
 
-PHP 7.3 and up.
+PHP 8.0 and up.
+
++ php-cli
++ php-mdstring
++ php-bcmath
+
 
 ## Installation
 
@@ -22,19 +54,22 @@ Either run
 
     composer require flobee/spss
 
-to the require section of your `composer.json` file [see here](https://packagist.org/packages/flobee/spss) 
+to the require section of your `composer.json` file [see here](https://packagist.org/packages/flobee/spss)
 or download from [here](https://github.com/flobee/spss/releases).
+
 
 
 ## Usage
 
+In folder [examples/](/examples/) you will find some more examples.
+
 Reader example:
 
-    $reader = \SPSS\Sav\Reader::fromFile('path/to/file.sav');
+    $reader = \SPSS\Sav\Reader::fromFile('path/to/file.sav')->read();
 
 or
 
-    $reader = \SPSS\Sav\Reader::fromString(file_get_contents('path/to/file.sav'));
+    $reader = \SPSS\Sav\Reader::fromString(file_get_contents('path/to/file.sav'))->read();
 
 
 Writer example:
@@ -65,22 +100,13 @@ Writer example:
             ...
         ]
     ]);
-
-
-
-## Demo/ playground
-
-    cd tests
-
-    php readerDemo.php | less
-    # or to update tmp file to check for changes (using a diff):
-    php readerDemo.php > data/pspp.sav.printr.txt
+    ...
 
 
 
 ## Tests / Developers
 
-Install using shell:
+### Install using shell
 
     git clone https://github.com/flobee/spss.git
     cd spss/
@@ -88,46 +114,51 @@ Install using shell:
     git submodule update --recursive # upgrading (after a `git pull`)
 
 Initialy or for upgrades to get development dependencies:
-    
+
     composer install
 
-then (base demo data at tests/data/pspp.sav will be used):
+For more dev-tools you may install phpstan/phpstan `composer require -dev phpstan/phpstan`
+which shows a lot of stucture problems of the application and it should getting more
+attention (beginning with level=1).
 
-    VERSION 3.* (Improved additions for CI systems)
+
+### Update existing code
+
+    git pull
+    git submodule update
+    composer install
+
+
+### Running tests
+
+    VERSION 4:
+    Improved additions for CI systems (e.g: jenkins) where `phing` is the
+    prefered build tool. `composer` the prefered package manager.
 
     # shows you the options
     ./phing -l
-    
+
     # executes the tests
     ./phing test
-    
+
     # executes the tests and create the code coverage
     ./phing coverage
-    
-    # run all tasks (CS checks, coverage, tests)
+
+    # run all tasks (CS checks, coverage, tests, sca...)
     ./phing all
 
     ...
 
-    VERSION 2.*
-
-    cd tests 
+    cd tests
     sh ./runTests.sh
 
+    # have a look at ../docs/CodeCoverage (use a browser after execution)
+    sh ./runTestsCoverageCreate.sh
+
+    # playground:
     php readerDemo.php | less
     # or to update tmp file to check for changes:
     php readerDemo.php > data/pspp.sav.printr.txt
-
-
-
-#### running tests:
-
-    cd tests
-    sh ./runTests.sh
-    
-    # have a look at ../docs/CodeCoverage (use a browser after execution)
-    sh ./runCoverage.sh
-
 
 
 ### Upgrade to version 3.*
@@ -148,7 +179,7 @@ Next:
 
 Dependency Errors?
 
-If you get dependency errors, you may upgrade other spss dependencies too. 
+If you get dependency errors, you may upgrade other spss dependencies too.
 If so try the following:
 
     composer update flobee/spss --with-dependencies
@@ -159,10 +190,8 @@ If so try the following:
 
 Please have a look in [docs/CHANGELOG.md](docs/CHANGELOG.md)
 
- 
+
 
 ## License
 
-Copyright (c) 2017 Vladislav K
-
-Licensed under the [MIT license](http://opensource.org/licenses/MIT).
+Please have a look in [License text](LICENSE.md)
