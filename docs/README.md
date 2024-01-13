@@ -1,5 +1,6 @@
 # SPSS / PSPP
 
+## project currently not maintained. Check github.com/tiamo/spss
 
 A PHP library for reading and writing SPSS / PSPP .sav data files.
 
